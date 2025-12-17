@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Expo App (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:19006", // ou 19000, depende do Expo
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
