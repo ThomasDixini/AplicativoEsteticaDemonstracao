@@ -1,0 +1,6 @@
+@EsteticaAPI_HostAddress = http://localhost:5056
+
+GET {{EsteticaAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,150 @@
+using System.Text;
+using EsteticaApplication;
+using EsteticaApplication.Jwt;
+using EsteticaApplication.NotificacaoService;
+using EsteticaApplication.NotificacaoService.interfaces;
+using EsteticaDominio;
+using EsteticaRepositorio;
+using EsteticaRepositorio.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Services
+builder.Services.AddOpenApi();
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IRepositorioEstetica, RepositorioEstetica>();
+builder.Services.AddScoped<IRepositorioConsultas, RepositorioConsultas>();
+builder.Services.AddScoped<IRepositorioProdutos, RepositorioProdutos>();
+builder.Services.AddScoped<IRepositorioUsuarios, RepositorioUsuarios>();
+
+builder.Services.AddScoped<IConsultasService, ConsultasService>();
+builder.Services.AddScoped<IProdutosService, ProdutosService>();
+builder.Services.AddScoped<IUsuariosService, UsuariosService>();
+builder.Services.AddScoped<INotificacaoService, NotificacaoService>();
+builder.Services.AddHttpClient<INotificacaoService, NotificacaoService>();
+builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<UserManager<Usuarios>>();
+builder.Services.AddScoped<SignInManager<Usuarios>>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null
+            );
+        }
+    )
+);
+
+builder.Services.AddControllers(config => {
+    var requireAuthPolicy = new AuthorizationPolicyBuilder()
+	.RequireAuthenticatedUser()
+	.Build();
+
+    config.Filters.Add(new AuthorizeFilter(requireAuthPolicy));
+});
+
+builder.Services
+            .AddIdentity<Usuarios, IdentityRole<int>>(options => {
+                options.SignIn.RequireConfirmedEmail = false;
+
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default Password settings.
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+});
+
+builder.Services
+            .AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwtOptions => {
+                jwtOptions.RequireHttpsMetadata = false;
+                jwtOptions.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
+            });
+
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
+builder.Services.AddHttpContextAccessor();
+
+var imagemUrl = builder.Configuration["AppConfig:ApiUrl"];
+if(imagemUrl != null)
+    EsteticaApplication.Helper.ImagemUploader.DefinirApiUrl(imagemUrl);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirCors",
+        policy =>
+        {
+            policy.AllowAnyHeader()
+                  .AllowAnyOrigin()
+                  .AllowAnyMethod();
+        });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+try
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        context.Database.CanConnect(); // Checks if DB is accessible
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Database Connection Error: {ex.Message}");
+}
+
+var firebaseJson = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS");
+
+
+app.UseCors("PermitirCors");
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseStaticFiles();
+
+app.MapControllers();
+
+app.Run();
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");

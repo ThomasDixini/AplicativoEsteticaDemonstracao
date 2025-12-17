@@ -1,0 +1,19 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "",
+    "Redis": ""
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "JwtSettings": {
+    "SecretKey": "sua-secret-key"
+  },
+  "Redis": {
+    "User": "seu-user",
+    "Password": "seu-password"
+  }
+}

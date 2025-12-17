@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsteticaDominio", "EsteticaDominio\EsteticaDominio.csproj", "{1B7FADEA-4D23-4018-BB0A-91E7E18D59EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsteticaRepositorio", "EsteticaRepositorio\EsteticaRepositorio.csproj", "{1074F363-A83C-42B2-83CB-94FDBC67FB7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsteticaAPI", "EsteticaAPI\EsteticaAPI.csproj", "{4A8BBFFB-71B6-4C7D-98B3-9BFC717498F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsteticaApplication", "EsteticaApplication\EsteticaApplication.csproj", "{17C6CC8A-20A1-41B1-B5D4-60042985D91F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B7FADEA-4D23-4018-BB0A-91E7E18D59EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7FADEA-4D23-4018-BB0A-91E7E18D59EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7FADEA-4D23-4018-BB0A-91E7E18D59EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7FADEA-4D23-4018-BB0A-91E7E18D59EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1074F363-A83C-42B2-83CB-94FDBC67FB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1074F363-A83C-42B2-83CB-94FDBC67FB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1074F363-A83C-42B2-83CB-94FDBC67FB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1074F363-A83C-42B2-83CB-94FDBC67FB7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A8BBFFB-71B6-4C7D-98B3-9BFC717498F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A8BBFFB-71B6-4C7D-98B3-9BFC717498F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A8BBFFB-71B6-4C7D-98B3-9BFC717498F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A8BBFFB-71B6-4C7D-98B3-9BFC717498F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C6CC8A-20A1-41B1-B5D4-60042985D91F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C6CC8A-20A1-41B1-B5D4-60042985D91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C6CC8A-20A1-41B1-B5D4-60042985D91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C6CC8A-20A1-41B1-B5D4-60042985D91F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
