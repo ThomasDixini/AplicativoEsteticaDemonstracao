@@ -2,7 +2,6 @@ using System.Text;
 using EsteticaApplication.NotificacaoService.interfaces;
 using EsteticaRepositorio;
 using EsteticaRepositorio.Interfaces;
-using FirebaseAdmin.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 namespace EsteticaApplication.NotificacaoService
@@ -50,18 +49,7 @@ namespace EsteticaApplication.NotificacaoService
                     }
                     else
                     {
-                        var registrationToken = usuario.NotificacaoToken;
-                        var messageFirebase = new Message()
-                        {
-                            Notification = new Notification
-                            {
-                                Title = titulo,
-                                Body = message
-                            },
-                            Token = registrationToken,
-                        };
-                        string responseFirebase = await FirebaseMessaging.DefaultInstance.SendAsync(messageFirebase);
-                        Console.WriteLine("Successfully sent message: " + responseFirebase);
+                        Console.WriteLine($"Notificação para usuário: {titulo} - {message}");
                     }
                 }
             }
@@ -90,19 +78,8 @@ namespace EsteticaApplication.NotificacaoService
                 }
                 else
                 {
-                    var registrationToken = usuario.NotificacaoToken;
-                    var messageFirebase = new Message()
-                    {
-                        Notification = new Notification
-                        {
-                            Title = titulo,
-                            Body = message
-                        },
-                        Token = registrationToken,
-                    };
-                    string responseFirebase = await FirebaseMessaging.DefaultInstance.SendAsync(messageFirebase);
-                    Console.WriteLine("Successfully sent message: " + responseFirebase);
-                    return "Successfully sent message: " + responseFirebase;
+                    Console.WriteLine($"Notificação para cliente: {titulo} - {message}");
+                    return "Notificação simulada enviada";
                 }
             }
             else

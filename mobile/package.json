@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "build:web": "expo export --platform web --output-dir dist && powershell Copy-Item -Path firebase-messaging-sw.js -Destination dist/"
+    "build:web": "expo export --platform web --output-dir dist"
   },
   "jest": {
     "preset": "jest-expo"
@@ -50,7 +50,6 @@
     "expo-symbols": "~0.2.2",
     "expo-system-ui": "~4.0.9",
     "expo-web-browser": "~14.0.2",
-    "firebase": "^12.6.0",
     "jwt-decode": "^4.0.0",
     "react": "18.3.1",
     "react-content-loader": "^7.0.2",

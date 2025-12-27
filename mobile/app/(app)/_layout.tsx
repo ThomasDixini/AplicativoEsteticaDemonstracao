@@ -15,7 +15,6 @@ import DrawerProvider from "@/components/Drawer/DrawerProvider";
 import MenuDropdownProvider from "@/components/MenuDropdown/MenuDropdownProvider";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
-import { ListenerFCM, requestWebToken } from "@/firebaseConfig";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -104,16 +103,6 @@ export default function RootLayout() {
         if (responseListener.current)
           Notifications.removeNotificationSubscription(responseListener.current);
       };
-    } else if(Platform.OS === 'web'){
-      if (!__DEV__ && "serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/firebase-messaging-sw.js")
-          .then(registration => {
-            console.log("SW registrado:", registration);
-          });
-      }
-      // handleWebPermission()
-      requestWebToken()
-      ListenerFCM()
     }
   }, []);
 

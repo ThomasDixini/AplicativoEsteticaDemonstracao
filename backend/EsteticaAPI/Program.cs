@@ -12,12 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Services
 builder.Services.AddOpenApi();
 builder.Services.AddAuthorization();
 
@@ -67,7 +64,6 @@ builder.Services
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Default Password settings.
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
@@ -115,7 +111,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -126,7 +121,8 @@ try
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Database.CanConnect(); // Checks if DB is accessible
+        context.Database.CanConnect(); 
+        context.Database.Migrate(); 
     }
 }
 catch (Exception ex)
@@ -134,11 +130,8 @@ catch (Exception ex)
     Console.WriteLine($"Database Connection Error: {ex.Message}");
 }
 
-var firebaseJson = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS");
-
 
 app.UseCors("PermitirCors");
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

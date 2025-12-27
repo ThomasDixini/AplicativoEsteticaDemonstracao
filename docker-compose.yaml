@@ -1,0 +1,40 @@
+services:
+  db:
+    networks:
+      - backend-network
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+      ACCEPT_EULA: "Y"
+  backend:
+    networks:
+      - backend-network
+    build: ./backend
+    ports:
+      - "5056:5056"
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:5056
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./app-data:/var/www/html
+    depends_on:
+      - db
+  mobile:
+    networks:
+      - mobile-network
+    build: ./mobile
+    ports:
+      - "8081:8081"
+    environment:
+      - EXPO_PUBLIC_API_APP_URL=${EXPO_PUBLIC_API_APP_URL}
+      - EXPO_PUBLIC_API_WEB_URL=${EXPO_PUBLIC_API_WEB_URL}
+      - EXPO_PUBLIC_WHATSAPP=${EXPO_PUBLIC_WHATSAPP}
+      - EXPO_PUBLIC_FACEBOOK_URL=${EXPO_PUBLIC_FACEBOOK_URL}
+      - EXPO_PUBLIC_INSTAGRAM_URL=${EXPO_PUBLIC_INSTAGRAM_URL}
+    volumes:
+      - ./mobile-data:/usr/src/app/public
+networks:
+  backend-network:
+    driver: bridge
+  mobile-network:
+    driver: bridge

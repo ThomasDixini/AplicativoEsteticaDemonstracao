@@ -31,6 +31,7 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
@@ -38,5 +39,5 @@ yarn-error.*
 app-example
 gradle.properties
 *.keystore
-firebase.config.ts
+firebaseConfig.ts
 firebase-messaging-sw.js
