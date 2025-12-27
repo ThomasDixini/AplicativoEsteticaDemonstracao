@@ -2,6 +2,19 @@
 
 Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
 
+## Sumário
+
+- [🏗️ Arquitetura do Projeto](#-arquitetura-do-projeto)
+- [📋 Pré-requisitos](#-pré-requisitos)
+- [🐳 Configuração com Docker](#-configuração-com-docker)
+- [💻 Configuração sem Docker](#-configuração-sem-docker)
+- [🔧 Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [🚀 Como Usar](#-como-usar)
+- [📸 Demonstração](#-demonstração)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🤝 Contribuição](#-contribuição)
+- [📄 Licença](#-licença)
+
 # 🏗️ Arquitetura do Projeto
 
 Este projeto utiliza uma arquitetura moderna, escalável e bem definida, focada em separação de responsabilidades, segurança e performance.
