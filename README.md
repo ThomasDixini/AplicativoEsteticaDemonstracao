@@ -26,7 +26,8 @@ Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, pa
    docker compose up --build
    ```
 
-   O backend estará disponível em `http://localhost:5056` e o mobile pode ser executado separadamente em `http://localhost:8081` (Para Web) ou lendo o QR Code do Expo com seu celular (Para Android).
+   O backend estará disponível em `http://localhost:5056`
+   O mobile estará disponível em `http://localhost:8081` (Para Web) ou você pode iniciar um outro terminal, executando o comando `npm run start` para gerar o QR Code do Expo para usar com seu celular (Para Android).
 
 ## Configuração sem Docker
 
@@ -53,6 +54,8 @@ Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, pa
 
 ### Mobile (React Native/Expo)
 
+O mobile deve ser executado localmente para gerar o QR Code corretamente.
+
 1. Instale Node.js e Expo CLI:
    ```bash
    npm install -g @expo/cli
@@ -67,10 +70,17 @@ Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, pa
 
 4. Execute o app:
    ```bash
-   npm run start
+   expo start
    ```
 
-   Use o Expo Go no seu dispositivo ou simulador para testar.
+   Para acessar de dispositivos fora da rede local (ex.: celular não conectado à mesma Wi-Fi), use túnel para o backend:
+   - Instale a extensão "Dev Tunnels" no VS Code.
+   - Abra o painel de Dev Tunnels (View > Command Palette > Dev Tunnels: Create Tunnel).
+   - Selecione porta 5056, crie o túnel e copie a URL pública (ex.: https://abc123.devtunnels.ms:5056).
+   - Atualize `EXPO_PUBLIC_API_APP_URL` no `mobile/.env` para essa URL (ex.: https://abc123.devtunnels.ms:5056).
+   - Para o QR Code do Expo, use `expo start --tunnel` se necessário.
+
+   **Nota para Android**: As imagens e API só funcionarão se o backend for acessível. Use o túnel do VS Code para expor a porta 5056 publicamente, evitando problemas de rede local.
 
 ## Variáveis de Ambiente
 
@@ -83,6 +93,7 @@ O projeto usa um arquivo `.env` na raiz para configurações. Renomeie `.env.exa
   
 - **EXPO_PUBLIC_API_APP_URL**: URL da API para o app mobile.
   - Usado em: `mobile/.env` (configure manualmente no mobile para desenvolvimento sem Docker).
+  - **Nota**: Use o URL do Dev Tunnel do VS Code para acesso remoto. (ex.: http://abc123.devtunnel/) 
 
 - **EXPO_PUBLIC_API_WEB_URL**: URL da API para web (se aplicável).
   - Usado em: `mobile/.env`.
@@ -116,11 +127,6 @@ Para desenvolvimento sem Docker:
 <img width="389" height="844" alt="Image" src="https://github.com/user-attachments/assets/bfc9d160-de90-4415-bf26-f72d261cdc06" />
 <img width="390" height="840" alt="Image" src="https://github.com/user-attachments/assets/cccac681-2cb4-4ead-a926-7846a7f561d1" />
 <img width="387" height="838" alt="Image" src="https://github.com/user-attachments/assets/1d32af81-d0ff-46be-b06a-408d3c88e4aa" />
-
-### Gifs
-
-- ![Registro de Usuário](gifs/registro.gif)
-- ![Agendamento de Consulta](gifs/consulta.gif)
 
 ## Estrutura do Projeto
 
