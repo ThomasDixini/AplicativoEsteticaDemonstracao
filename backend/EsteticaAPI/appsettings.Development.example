@@ -1,0 +1,18 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=EsteticaDb;User Id=sa;Password=SUA_SENHA_DO_ENV;",
+    "Redis": ""
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "JwtSettings": {
+    "SecretKey": "sua-secret-key-aqui"
+  },
+  "AppConfig": {
+    "ApiUrl": "http://localhost:5056"
+  }
+}
