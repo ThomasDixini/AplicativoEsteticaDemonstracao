@@ -1,10 +1,5 @@
-# Estética App
-
-Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
-
 ## 📑 Sumário
 
-- [Estética App](#estética-app)
 - [🏗️ Arquitetura do Projeto](#️-arquitetura-do-projeto)
   - [📱 Mobile App](#-mobile-app)
   - [🔔 Expo Notifications](#-expo-notifications)
@@ -26,6 +21,12 @@ Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, pa
 - [🔐 Variáveis de Ambiente](#-variáveis-de-ambiente)
 - [🤝 Contribuição](#-contribuição)
 - [📄 Licença](#-licença)
+
+---
+
+# Estética App
+
+Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
 
 
 # 🏗️ Arquitetura do Projeto
