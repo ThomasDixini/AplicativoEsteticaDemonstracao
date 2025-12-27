@@ -15,8 +15,9 @@ services:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:5056
       - ASPNETCORE_ENVIRONMENT=Development
+      - AppConfig__ApiUrl=http://localhost:5056
     volumes:
-      - ./app-data:/var/www/html
+      - ./app-data:/src/AplicatioEstetica/wwwroot
     depends_on:
       - db
   mobile:
