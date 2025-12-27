@@ -2,18 +2,31 @@
 
 Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
 
-## Sumário
+## 📑 Sumário
 
-- [🏗️ Arquitetura do Projeto](#-arquitetura-do-projeto)
-- [📋 Pré-requisitos](#-pré-requisitos)
-- [🐳 Configuração com Docker](#-configuração-com-docker)
-- [💻 Configuração sem Docker](#-configuração-sem-docker)
-- [🔧 Variáveis de Ambiente](#-variáveis-de-ambiente)
-- [🚀 Como Usar](#-como-usar)
-- [📸 Demonstração](#-demonstração)
-- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [Estética App](#estética-app)
+- [🏗️ Arquitetura do Projeto](#️-arquitetura-do-projeto)
+  - [📱 Mobile App](#-mobile-app)
+  - [🔔 Expo Notifications](#-expo-notifications)
+  - [⚖️ NGINX – Load Balancer](#️-nginx--load-balancer)
+  - [🧩 Backend (Arquitetura em Camadas)](#-backend-arquitetura-em-camadas)
+  - [🔐 Autenticação – JWT (JSON Web Token)](#-autenticação--jwt-json-web-token)
+  - [🧠 API Layer (Camada de API / Controllers)](#-api-layer-camada-de-api--controllers)
+  - [⚙️ Service Layer (Camada de Serviços / Regras de Negócio)](#️-service-layer-camada-de-serviços--regras-de-negócio)
+  - [🗄️ Data Access Layer (Camada de Acesso a Dados)](#️-data-access-layer-camada-de-acesso-a-dados)
+  - [🗃️ Banco de Dados](#️-banco-de-dados)
+  - [✅ Benefícios da Arquitetura](#-benefícios-da-arquitetura)
+- [🎥 Demonstração](#-demonstração)
+  - [Screenshots](#screenshots)
+- [⚙️ Pré-requisitos](#️-pré-requisitos)
+- [🐳 Configuração com Docker (Recomendado)](#-configuração-com-docker-recomendado)
+- [🛠️ Configuração sem Docker](#️-configuração-sem-docker)
+  - [Backend (.NET)](#backend-net)
+  - [Mobile (React Native/Expo)](#mobile-react-nativeexpo)
+- [🔐 Variáveis de Ambiente](#-variáveis-de-ambiente)
 - [🤝 Contribuição](#-contribuição)
 - [📄 Licença](#-licença)
+
 
 # 🏗️ Arquitetura do Projeto
 
