@@ -130,8 +130,15 @@ namespace EsteticaAPI.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(usuario, model.Password);
+                
                 if(result.Succeeded)
                 {
+                    var admins = await _usuarioService.BuscarUsuariosAdm();
+                    if(admins == null || admins.Count == 0)
+                    {
+                        await _userManager.AddToRoleAsync(usuario, "Admin");
+                    }
+                    
                     await _signInManager.SignInAsync(usuario, false);
                     return Ok("Usuário registrado com sucesso!");
                 }

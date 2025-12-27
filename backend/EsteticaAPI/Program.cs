@@ -123,6 +123,12 @@ try
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         context.Database.CanConnect(); 
         context.Database.Migrate(); 
+
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+        if (!await roleManager.RoleExistsAsync("Admin"))
+        {
+            await roleManager.CreateAsync(new IdentityRole<int>("Admin"));
+        }
     }
 }
 catch (Exception ex)
