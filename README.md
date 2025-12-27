@@ -2,6 +2,143 @@
 
 Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
 
+# 🏗️ Arquitetura do Projeto
+
+Este projeto utiliza uma arquitetura moderna, escalável e bem definida, focada em separação de responsabilidades, segurança e performance.
+
+<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/dc295a44-54e9-41e6-acf8-6037c7c46de8" />
+
+---
+
+## 📱 Mobile App
+
+Aplicação mobile desenvolvida com **Expo / React Native**.
+
+### Responsabilidades
+- Interface do usuário
+- Consumo da API via HTTP/HTTPS
+- Armazenamento e envio do token **JWT** nas requisições
+- Recebimento de notificações push via **Expo Notifications**
+
+---
+
+## 🔔 Expo Notifications
+
+Serviço responsável pelo envio de notificações push para os dispositivos móveis.
+
+### Fluxo
+- O backend envia notificações utilizando o **Expo Push Service**
+- O Mobile App recebe e exibe as notificações ao usuário
+
+---
+
+## ⚖️ NGINX – Load Balancer
+
+O **NGINX** atua como balanceador de carga e ponto de entrada da aplicação.
+
+### Responsabilidades
+- Receber todas as requisições vindas do Mobile App
+- Distribuir as requisições entre as instâncias do backend
+- Melhorar performance e disponibilidade
+- Possibilitar escalabilidade horizontal
+- Centralizar configurações de segurança (SSL, headers, etc.)
+
+---
+
+## 🧩 Backend (Arquitetura em Camadas)
+
+O backend segue uma **arquitetura em camadas**, garantindo organização, manutenibilidade e facilidade de evolução.
+
+---
+
+## 🔐 Autenticação – JWT (JSON Web Token)
+
+A autenticação é baseada em **JWT**.
+
+### Funcionamento
+- O usuário realiza login
+- O backend gera um token JWT
+- O Mobile App envia o token em cada requisição
+- O backend valida o token antes de processar a requisição
+
+---
+
+## 🧠 API Layer (Camada de API / Controllers)
+
+Camada responsável por expor os endpoints da aplicação.
+
+### Responsabilidades
+- Receber requisições HTTP
+- Validar dados de entrada
+- Validar autenticação (JWT)
+- Encaminhar as requisições para a Service Layer
+- Retornar respostas ao cliente
+
+> Não contém regras de negócio complexas.
+
+---
+
+## ⚙️ Service Layer (Camada de Serviços / Regras de Negócio)
+
+Camada central da aplicação, onde ficam as regras de negócio.
+
+### Responsabilidades
+- Implementar a lógica da aplicação
+- Orquestrar operações
+- Validar regras de negócio
+- Chamar a Data Access Layer quando necessário
+- Integrar com serviços externos (ex: Expo Notifications)
+
+---
+
+## 🗄️ Data Access Layer (Camada de Acesso a Dados)
+
+Camada responsável pela comunicação com o banco de dados.
+
+### Responsabilidades
+- Executar queries
+- Persistir e recuperar dados
+- Isolar o banco de dados do restante da aplicação
+- Facilitar manutenção e troca de tecnologia de banco, se necessário
+
+---
+
+## 🗃️ Banco de Dados
+
+A aplicação utiliza **apenas um banco de dados**, centralizando todas as informações do sistema.
+
+### Características
+- Fonte única de dados
+- Acessado exclusivamente pela Data Access Layer
+- Garante integridade e consistência das informações
+
+---
+
+## ✅ Benefícios da Arquitetura
+
+- Alta organização e legibilidade do código
+- Facilidade de manutenção e testes
+- Segurança com JWT
+- Escalabilidade com NGINX
+- Separação clara de responsabilidades
+- Preparada para crescimento do projeto
+
+---
+
+## Demonstração
+### Screenshots
+
+<img width="387" height="834" alt="Image" src="https://github.com/user-attachments/assets/c0de1cc6-910a-4bb8-bc0e-2e798454ec5a" />
+<img width="390" height="835" alt="Image" src="https://github.com/user-attachments/assets/1fe5ab4c-b80a-413b-9c79-2a459cf9965e" />
+<img width="388" height="832" alt="Image" src="https://github.com/user-attachments/assets/62e74c71-b167-4a2e-afda-16e175e54601" />
+<img width="389" height="837" alt="Image" src="https://github.com/user-attachments/assets/c04e524c-4a7a-438c-85b0-1d2d2f8d9ea5" />
+<img width="389" height="836" alt="Image" src="https://github.com/user-attachments/assets/6fc50fc7-a487-4b84-9488-60a782fc3d4e" />
+<img width="386" height="841" alt="Image" src="https://github.com/user-attachments/assets/42618e4e-092e-494d-95d8-a078d915f654" />
+<img width="387" height="839" alt="Image" src="https://github.com/user-attachments/assets/24227f2e-0b19-414a-bd63-1015b1e60095" />
+<img width="389" height="844" alt="Image" src="https://github.com/user-attachments/assets/bfc9d160-de90-4415-bf26-f72d261cdc06" />
+<img width="390" height="840" alt="Image" src="https://github.com/user-attachments/assets/cccac681-2cb4-4ead-a926-7846a7f561d1" />
+<img width="387" height="838" alt="Image" src="https://github.com/user-attachments/assets/1d32af81-d0ff-46be-b06a-408d3c88e4aa" />
+
 ## Pré-requisitos
 
 - **Docker e Docker Compose** (versão 3.8 ou superior)
@@ -110,29 +247,6 @@ O projeto usa um arquivo `.env` na raiz para configurações. Renomeie `.env.exa
 Para desenvolvimento sem Docker:
 - Backend: Edite `backend/EsteticaAPI/appsettings.Development.json` com `DB_PASSWORD` do `.env`.
 - Mobile: Crie `mobile/.env` com as variáveis `EXPO_PUBLIC_*` do `.env` global.
-
-## Demonstração
-
-<!-- Adicione gifs ou fotos aqui -->
-
-### Screenshots
-
-<img width="387" height="834" alt="Image" src="https://github.com/user-attachments/assets/c0de1cc6-910a-4bb8-bc0e-2e798454ec5a" />
-<img width="390" height="835" alt="Image" src="https://github.com/user-attachments/assets/1fe5ab4c-b80a-413b-9c79-2a459cf9965e" />
-<img width="388" height="832" alt="Image" src="https://github.com/user-attachments/assets/62e74c71-b167-4a2e-afda-16e175e54601" />
-<img width="389" height="837" alt="Image" src="https://github.com/user-attachments/assets/c04e524c-4a7a-438c-85b0-1d2d2f8d9ea5" />
-<img width="389" height="836" alt="Image" src="https://github.com/user-attachments/assets/6fc50fc7-a487-4b84-9488-60a782fc3d4e" />
-<img width="386" height="841" alt="Image" src="https://github.com/user-attachments/assets/42618e4e-092e-494d-95d8-a078d915f654" />
-<img width="387" height="839" alt="Image" src="https://github.com/user-attachments/assets/24227f2e-0b19-414a-bd63-1015b1e60095" />
-<img width="389" height="844" alt="Image" src="https://github.com/user-attachments/assets/bfc9d160-de90-4415-bf26-f72d261cdc06" />
-<img width="390" height="840" alt="Image" src="https://github.com/user-attachments/assets/cccac681-2cb4-4ead-a926-7846a7f561d1" />
-<img width="387" height="838" alt="Image" src="https://github.com/user-attachments/assets/1d32af81-d0ff-46be-b06a-408d3c88e4aa" />
-
-## Estrutura do Projeto
-
-- `backend/`: Código do backend em .NET.
-- `mobile/`: Código do app mobile em React Native.
-- `docker-compose.yaml`: Orquestração dos serviços.
 
 ## Contribuição
 
