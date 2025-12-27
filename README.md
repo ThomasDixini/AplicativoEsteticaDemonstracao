@@ -19,14 +19,14 @@
   - [Backend (.NET)](#backend-net)
   - [Mobile (React Native/Expo)](#mobile-react-nativeexpo)
 - [🔐 Variáveis de Ambiente](#-variáveis-de-ambiente)
-- [🤝 Contribuição](#-contribuição)
-- [📄 Licença](#-licença)
 
 ---
 
 # Estética App
 
 Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
+
+| ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
 
 
 # 🏗️ Arquitetura do Projeto
@@ -274,14 +274,3 @@ O projeto usa um arquivo `.env` na raiz para configurações. Renomeie `.env.exa
 Para desenvolvimento sem Docker:
 - Backend: Edite `backend/EsteticaAPI/appsettings.Development.json` com `DB_PASSWORD` do `.env`.
 - Mobile: Crie `mobile/.env` com as variáveis `EXPO_PUBLIC_*` do `.env` global.
-
-## Contribuição
-
-1. Fork o projeto.
-2. Crie uma branch para sua feature.
-3. Faça commit e push.
-4. Abra um PR.
-
-## Licença
-
-Este projeto está sob a licença MIT.
