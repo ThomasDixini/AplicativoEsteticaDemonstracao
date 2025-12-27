@@ -106,8 +106,16 @@ Para desenvolvimento sem Docker:
 
 ### Screenshots
 
-- ![Tela de Login](screenshots/login.png)
-- ![Dashboard](screenshots/dashboard.png)
+<img width="387" height="834" alt="Image" src="https://github.com/user-attachments/assets/c0de1cc6-910a-4bb8-bc0e-2e798454ec5a" />
+<img width="390" height="835" alt="Image" src="https://github.com/user-attachments/assets/1fe5ab4c-b80a-413b-9c79-2a459cf9965e" />
+<img width="388" height="832" alt="Image" src="https://github.com/user-attachments/assets/62e74c71-b167-4a2e-afda-16e175e54601" />
+<img width="389" height="837" alt="Image" src="https://github.com/user-attachments/assets/c04e524c-4a7a-438c-85b0-1d2d2f8d9ea5" />
+<img width="389" height="836" alt="Image" src="https://github.com/user-attachments/assets/6fc50fc7-a487-4b84-9488-60a782fc3d4e" />
+<img width="386" height="841" alt="Image" src="https://github.com/user-attachments/assets/42618e4e-092e-494d-95d8-a078d915f654" />
+<img width="387" height="839" alt="Image" src="https://github.com/user-attachments/assets/24227f2e-0b19-414a-bd63-1015b1e60095" />
+<img width="389" height="844" alt="Image" src="https://github.com/user-attachments/assets/bfc9d160-de90-4415-bf26-f72d261cdc06" />
+<img width="390" height="840" alt="Image" src="https://github.com/user-attachments/assets/cccac681-2cb4-4ead-a926-7846a7f561d1" />
+<img width="387" height="838" alt="Image" src="https://github.com/user-attachments/assets/1d32af81-d0ff-46be-b06a-408d3c88e4aa" />
 
 ### Gifs
 
