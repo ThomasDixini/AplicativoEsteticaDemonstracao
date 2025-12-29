@@ -25,6 +25,7 @@
 # Estética App
 
 Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
+O objetivo do projeto é Demonstrar a construção de uma aplicação full stack moderna, com foco em arquitetura limpa, escalabilidade, segurança e boas práticas de desenvolvimento.
 
 > ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
 
@@ -166,14 +167,14 @@ A aplicação utiliza **apenas um banco de dados**, centralizando todas as infor
 <img width="390" height="840" alt="Image" src="https://github.com/user-attachments/assets/cccac681-2cb4-4ead-a926-7846a7f561d1" />
 <img width="387" height="838" alt="Image" src="https://github.com/user-attachments/assets/1d32af81-d0ff-46be-b06a-408d3c88e4aa" />
 
-## Pré-requisitos
+## ⚙️ Pré-requisitos
 
 - **Docker e Docker Compose** (versão 3.8 ou superior)
 - **.NET 9.0 SDK** (para desenvolvimento sem Docker)
 - **Node.js** (versão 18 ou superior) e **Expo CLI** (para mobile)
 - **SQL Server** (para backend sem Docker) ou Docker para SQL Server
 
-## Configuração com Docker (Recomendado)
+## 🐳 Configuração com Docker (Recomendado)
 
 1. Clone o repositório:
    ```bash
@@ -193,7 +194,7 @@ A aplicação utiliza **apenas um banco de dados**, centralizando todas as infor
    O backend estará disponível em `http://localhost`
    O mobile estará disponível em `http://localhost:8081` (Para Web) ou você pode iniciar um outro terminal, executando o comando `npm run start` para gerar o QR Code do Expo para usar com seu celular (Para Android).
 
-## Configuração sem Docker
+## 🛠️ Configuração sem Docker
 
 ### Backend (.NET)
 
@@ -246,7 +247,7 @@ O mobile deve ser executado localmente para gerar o QR Code corretamente.
 
    **Nota para Android**: As imagens e API só funcionarão se o backend for acessível. Use o túnel do VS Code para expor a porta 5056 publicamente, evitando problemas de rede local.
 
-## Variáveis de Ambiente
+## 🔐 Variáveis de Ambiente
 
 O projeto usa um arquivo `.env` na raiz para configurações. Renomeie `.env.example` para `.env` para usar valores padrão.
 
