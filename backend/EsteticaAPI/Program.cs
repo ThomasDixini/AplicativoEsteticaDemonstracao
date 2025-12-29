@@ -94,10 +94,6 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddHttpContextAccessor();
 
-var imagemUrl = builder.Configuration["AppConfig:ApiUrl"];
-if(imagemUrl != null)
-    EsteticaApplication.Helper.ImagemUploader.DefinirApiUrl(imagemUrl);
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirCors",
@@ -144,6 +140,12 @@ app.UseAuthorization();
 app.UseStaticFiles();
 
 app.MapControllers();
+
+app.MapGet("/", () =>
+{
+    Console.WriteLine("Estetica API is running at: " + Environment.MachineName);
+    return "Estetica API is running at: " + Environment.MachineName;
+}).AllowAnonymous();
 
 app.Run();
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");

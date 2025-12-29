@@ -1,5 +1,7 @@
 services:
   db:
+    ports:
+        - "1433:1433"
     networks:
       - backend-network
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -10,14 +12,14 @@ services:
     networks:
       - backend-network
     build: ./backend
-    ports:
-      - "5056:5056"
+    expose:
+      - "5056"
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:5056
       - ASPNETCORE_ENVIRONMENT=Development
-      - AppConfig__ApiUrl=http://localhost:5056
+      - AppConfig__ApiUrl=http://backend:5056
     volumes:
-      - ./app-data:/src/AplicatioEstetica/wwwroot
+      - ./app-data:/app/EsteticaAPI/wwwroot
     depends_on:
       - db
   mobile:
@@ -34,6 +36,19 @@ services:
       - EXPO_PUBLIC_INSTAGRAM_URL=${EXPO_PUBLIC_INSTAGRAM_URL}
     volumes:
       - ./mobile-data:/usr/src/app/public
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    networks:
+      - backend-network
+      - mobile-network
+    container_name: nginx
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./app-data:/app/EsteticaAPI/wwwroot
+    depends_on:
+      - backend
 networks:
   backend-network:
     driver: bridge

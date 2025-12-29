@@ -8,6 +8,7 @@ import { RelativePathString, usePathname, useRouter } from "expo-router";
 export default function CardProdutos(props: CardProdutosProps){
     const { isAdmin } = useMenuDropdown();
     const path = usePathname();
+    const pathURL = baseURL ? baseURL?.replace('/api', '') : '';
     const navegador = useRouter();
 
     function navegar(){
@@ -25,7 +26,7 @@ export default function CardProdutos(props: CardProdutosProps){
         <Pressable onPress={() => navegar() } style={{ opacity: props.produto.ativo ? 1 : 0.25,  elevation: 4, shadowColor: 'black', shadowOpacity: 0.25, shadowRadius: 4, shadowOffset: { width: -2, height: 2 }, backgroundColor: '#ffffff', padding: 8, paddingBottom: 16, borderRadius: 8, maxWidth: 150, width: 150, marginHorizontal: 12, flexDirection: 'column', alignItems: 'flex-start' }}>
             <Image
                 style={{ width: '100%', height: 120, borderRadius: 8 }}
-                source={{ uri: props.produto.uriImagem ? `${props.produto.uriImagem}` : `${baseURL}/imagens/sem_imagem.png`}}
+                source={{ uri: props.produto.uriImagem ? `${pathURL}${props.produto.uriImagem}` : `${pathURL}/imagens/sem_imagem.png`}}
             />
             <View style={{ marginTop: 'auto' }}>
                 <Text style={{ flexWrap: 'wrap', fontSize: 14, marginTop: 8, maxWidth: 100, textAlign: 'left', fontWeight: 'bold', color: '#252f3d' }}>{props.produto.nome} </Text>

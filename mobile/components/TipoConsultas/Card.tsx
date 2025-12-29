@@ -21,6 +21,7 @@ const { width, height } = Dimensions.get('window')
 export default function CardComponente(props: CardProps) {
     const navegador = useRouter();
     const path = usePathname();
+    const pathURL = baseURL ? baseURL?.replace('/api', '') : '';
     const { openMenuDropdown, closeMenuDropdown, visible, isAdmin } = useMenuDropdown();
     
     function navegar(){
@@ -79,7 +80,7 @@ export default function CardComponente(props: CardProps) {
                     style={[
                         styles.imagem,
                     ]}
-                    source={{ uri: props.card.uriImagem ? `${props.card.uriImagem}` : `${baseURL}/imagens/sem_imagem.png`}}
+                    source={{ uri: props.card.uriImagem ? `${pathURL}${props.card.uriImagem}` : `${pathURL}/imagens/sem_imagem.png`}}
                 />
             </View>
         </>
