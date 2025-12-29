@@ -24,11 +24,24 @@
 
 # Estética App
 
-Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
-O objetivo do projeto é Demonstrar a construção de uma aplicação full stack moderna, com foco em arquitetura limpa, escalabilidade, segurança e boas práticas de desenvolvimento.
+Aplicação **full stack** para gerenciamento de clínicas de estética, desenvolvida com **backend em .NET** e **aplicativo mobile em React Native/Expo**.
+
+O projeto foi criado com foco em **arquitetura limpa**, **separação de responsabilidades**, **segurança** e **escalabilidade**, utilizando práticas e tecnologias comumente aplicadas em ambientes reais de produção, como **JWT**, **Docker** e **NGINX** como load balancer.
+
+Este repositório tem como objetivo **demonstrar conhecimentos técnicos e decisões arquiteturais**, simulando um cenário próximo ao de um sistema real.
+
+## 👨‍💻 O que eu desenvolvi neste projeto
+- Arquitetura completa do backend em .NET
+- Implementação de autenticação JWT
+- Modelagem do banco de dados
+- Integração entre mobile e API
+- Configuração de Docker e NGINX como load balancer
+- Integração com Expo Notifications
 
 > ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
 
+
+---
 
 # 🏗️ Arquitetura do Projeto
 
