@@ -1,7 +1,6 @@
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Database=EsteticaDb;User Id=sa;Password=SUA_SENHA_DO_ENV;",
-    "Redis": ""
   },
   "Logging": {
     "LogLevel": {
@@ -13,6 +12,6 @@
     "SecretKey": "sua-secret-key-aqui"
   },
   "AppConfig": {
-    "ApiUrl": "http://localhost:5056"
+    "ApiUrl": "http://0.0.0.0:5056"
   }
 }
