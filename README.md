@@ -38,6 +38,7 @@ Este repositório tem como objetivo **demonstrar conhecimentos técnicos e decis
 - Configuração de Docker e NGINX como load balancer
 - Integração com Expo Notifications
 
+
 > ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
 
 
