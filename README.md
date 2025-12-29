@@ -26,7 +26,7 @@
 
 Um aplicativo de estética com backend em .NET e mobile em React Native/Expo, para gerenciamento de usuários, consultas e produtos.
 
-| ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
+> ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
 
 
 # 🏗️ Arquitetura do Projeto
@@ -190,7 +190,7 @@ A aplicação utiliza **apenas um banco de dados**, centralizando todas as infor
    docker compose up --build
    ```
 
-   O backend estará disponível em `http://localhost:5056`
+   O backend estará disponível em `http://localhost`
    O mobile estará disponível em `http://localhost:8081` (Para Web) ou você pode iniciar um outro terminal, executando o comando `npm run start` para gerar o QR Code do Expo para usar com seu celular (Para Android).
 
 ## Configuração sem Docker
@@ -230,7 +230,7 @@ O mobile deve ser executado localmente para gerar o QR Code corretamente.
    npm install
    ```
 
-3. Configure variáveis de ambiente no `mobile/.env` com os valores do `.env` global (ex.: EXPO_PUBLIC_API_APP_URL).
+3. Configure variáveis de ambiente no `mobile/.env` com os valores do `.env` global (ex.: EXPO_PUBLIC_API_APP_URL). 
 
 4. Execute o app:
    ```bash
