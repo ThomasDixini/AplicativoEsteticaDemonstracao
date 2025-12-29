@@ -1,3 +1,6 @@
+🌍 **Languages:** [Português](README.md) | [English](README.en.md)
+
+
 ## 📑 Sumário
 
 - [🏗️ Arquitetura do Projeto](#️-arquitetura-do-projeto)
