@@ -30,6 +30,8 @@ O projeto foi criado com foco em **arquitetura limpa**, **separação de respons
 
 Este repositório tem como objetivo **demonstrar conhecimentos técnicos e decisões arquiteturais**, simulando um cenário próximo ao de um sistema real.
 
+> ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
+
 ## 👨‍💻 O que eu desenvolvi neste projeto
 - Arquitetura completa do backend em .NET
 - Implementação de autenticação JWT
@@ -37,9 +39,6 @@ Este repositório tem como objetivo **demonstrar conhecimentos técnicos e decis
 - Integração entre mobile e API
 - Configuração de Docker e NGINX como load balancer
 - Integração com Expo Notifications
-
-
-> ⚠️ Este é um projeto demonstrativo inspirado em um sistema real desenvolvido para um cliente. Nenhum dado, regra de negócio sensível ou código proprietário foi exposto.
 
 
 ---
