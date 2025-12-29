@@ -171,8 +171,11 @@ A aplicação utiliza **apenas um banco de dados**, centralizando todas as infor
 
 - **Docker e Docker Compose** (versão 3.8 ou superior)
 - **.NET 9.0 SDK** (para desenvolvimento sem Docker)
+- **Entity Framework Core 9.0.2**: Para consultas no DB
 - **Node.js** (versão 18 ou superior) e **Expo CLI** (para mobile)
 - **SQL Server** (para backend sem Docker) ou Docker para SQL Server
+
+>  Para rodar o projeto no celular, você precisará de configurações além do **DOCKER**, que está logo abaixo o passo a passo.
 
 ## 🐳 Configuração com Docker (Recomendado)
 
@@ -182,7 +185,7 @@ A aplicação utiliza **apenas um banco de dados**, centralizando todas as infor
    cd <pasta-do-projeto>
    ```
 
-2. Renomeie o arquivo **.env.example** para **.env**
+2. Renomeie o arquivo **.env.example** para **.env**. (adicione seu IP local, caso for testar pelo celular
 
 3. (Opcional) Edite o arquivo `.env` se precisar personalizar senhas ou URLs.
 
@@ -192,7 +195,14 @@ A aplicação utiliza **apenas um banco de dados**, centralizando todas as infor
    ```
 
    O backend estará disponível em `http://localhost`
-   O mobile estará disponível em `http://localhost:8081` (Para Web) ou você pode iniciar um outro terminal, executando o comando `npm run start` para gerar o QR Code do Expo para usar com seu celular (Para Android).
+   O mobile estará disponível em `http://localhost:8081` (Para Web)
+
+5. O projeto já está preparado para escalabilidade horizontal do backend utilizando o NGINX como Load Balancer.
+
+  Ao subir os containers, você pode escalar múltiplas instâncias do backend usando a flag --scale:
+  ```
+  docker compose up --build --scale backend=3
+  ```
 
 ## 🛠️ Configuração sem Docker
 
@@ -231,22 +241,15 @@ O mobile deve ser executado localmente para gerar o QR Code corretamente.
    npm install
    ```
 
-3. Configure variáveis de ambiente no `mobile/.env` com os valores do `.env` global (ex.: EXPO_PUBLIC_API_APP_URL). 
-
-4. Execute o app:
+3. Crie um arquivo `.env` em `mobile/.env` e Configure variáveis de ambiente nele com os valores do `.env.exemple` global (ex.: EXPO_PUBLIC_API_APP_URL).
+   **Atenção**: Se estiver rodando no celular, mas com o BACKEND no docker-compose, os IPS devem apontar para a porta 80, se não para a porta 5056.
+   
+5. Execute o app:
    ```bash
-   expo start
+   cd ./mobile
+   npm run start
    ```
-
-   Para acessar de dispositivos fora da rede local (ex.: celular não conectado à mesma Wi-Fi), use túnel para o backend:
-   - Instale a extensão "Dev Tunnels" no VS Code.
-   - Abra o painel de Dev Tunnels (View > Command Palette > Dev Tunnels: Create Tunnel).
-   - Selecione porta 5056, crie o túnel e copie a URL pública (ex.: https://abc123.devtunnels.ms:5056).
-   - Atualize `EXPO_PUBLIC_API_APP_URL` no `mobile/.env` para essa URL (ex.: https://abc123.devtunnels.ms:5056).
-   - Para o QR Code do Expo, use `expo start --tunnel` se necessário.
-
-   **Nota para Android**: As imagens e API só funcionarão se o backend for acessível. Use o túnel do VS Code para expor a porta 5056 publicamente, evitando problemas de rede local.
-
+   
 ## 🔐 Variáveis de Ambiente
 
 O projeto usa um arquivo `.env` na raiz para configurações. Renomeie `.env.example` para `.env` para usar valores padrão.
@@ -256,12 +259,13 @@ O projeto usa um arquivo `.env` na raiz para configurações. Renomeie `.env.exa
 - **DB_PASSWORD**: Senha do banco de dados SQL Server.
   - Usado em: `docker-compose.yaml` (para container db), e em `appsettings.Development.json` (renomeie `appsettings.Development.example` e edite para desenvolvimento sem Docker).
   
-- **EXPO_PUBLIC_API_APP_URL**: URL da API para o app mobile.
-  - Usado em: `mobile/.env` (configure manualmente no mobile para desenvolvimento sem Docker).
-  - **Nota**: Use o URL do Dev Tunnel do VS Code para acesso remoto. (ex.: http://abc123.devtunnel/) 
+- **EXPO_PUBLIC_API_APP_URL**: URL da API para o app mobile. (Ex: http://192.168.1.168:80/api ou http://192.168.1.168:5056/api)
+  - Usado em: `mobile/.env` e `./.env`  (configure manualmente no mobile para desenvolvimento sem Docker).
+  - **Nota**: Deve ser o IP Local da sua máquina. Caso estiver usando com docker-compose deve-se usar a porta 80, caso contrário porta 5056. 
 
-- **EXPO_PUBLIC_API_WEB_URL**: URL da API para web (se aplicável).
-  - Usado em: `mobile/.env`.
+- **EXPO_PUBLIC_API_WEB_URL**: URL da API para web (se aplicável). (Ex: http://localhost:80/api ou http://localhost:5056/api)
+  - Usado em: `mobile/.env` e `./.env`.
+  - **Nota**: Deve ser o **localhost** da sua máquina. Caso estiver usando com docker-compose deve-se usar a porta 80, caso contrário porta 5056. 
 
 - **EXPO_PUBLIC_WHATSAPP**: Link do WhatsApp.
   - Usado em: Mobile app.
