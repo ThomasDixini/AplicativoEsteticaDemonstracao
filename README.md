@@ -254,7 +254,7 @@ O mobile deve ser executado localmente para gerar o QR Code corretamente.
    npm install
    ```
 
-3. Crie um arquivo `.env` em `mobile/.env` e Configure variáveis de ambiente nele com os valores do `.env.exemple` global (ex.: EXPO_PUBLIC_API_APP_URL).
+3. Crie um arquivo `.env` em `mobile/.env` e Configure variáveis de ambiente nele com os valores do `.env.example` global (ex.: EXPO_PUBLIC_API_APP_URL).
    **Atenção**: Se estiver rodando no celular, mas com o BACKEND no docker-compose, os IPS devem apontar para a porta 80, se não para a porta 5056.
    
 5. Execute o app:
