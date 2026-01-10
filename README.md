@@ -27,7 +27,7 @@
 
 # Estética App
 
-Aplicação **full stack** para gerenciamento de clínicas de estética, desenvolvida com **backend em .NET** e **aplicativo mobile em React Native/Expo**.
+Aplicação **full stack** para gerenciamento de consultas de estética, desenvolvida com **backend em .NET** e **aplicativo mobile em React Native/Expo**.
 
 O projeto foi criado com foco em **arquitetura limpa**, **separação de responsabilidades**, **segurança** e **escalabilidade**, utilizando práticas e tecnologias comumente aplicadas em ambientes reais de produção, como **JWT**, **Docker** e **NGINX** como load balancer.
 
