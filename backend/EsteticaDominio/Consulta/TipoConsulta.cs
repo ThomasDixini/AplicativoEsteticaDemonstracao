@@ -14,7 +14,7 @@ namespace EsteticaDominio.Consulta
         public string Descricao { get; set; }
         [Column(TypeName = "NUMERIC(18,2)")]
         public decimal ValorAtual { get; set; }
-        public string UriImagem { get; set;  }
+        public string UriImagem { get; set; }
         public byte[] Imagem { get; set; }
         [NotMapped]
         public string ImagemBase64 { get; set; }

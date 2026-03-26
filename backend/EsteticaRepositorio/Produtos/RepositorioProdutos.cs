@@ -16,7 +16,7 @@ namespace EsteticaRepositorio
         }
         public async Task<Produtos> BuscarProdutoPorId(int ProdutoId)
         {
-            return await Task.Run(() =>  _context.Produtos.FirstAsync(c => c.Id == ProdutoId));
+            return await Task.Run(() => _context.Produtos.FirstAsync(c => c.Id == ProdutoId));
         }
 
         public async Task<List<Produtos>> BuscarProdutos()

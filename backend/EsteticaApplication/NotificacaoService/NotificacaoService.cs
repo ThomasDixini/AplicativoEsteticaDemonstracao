@@ -83,7 +83,7 @@ namespace EsteticaApplication.NotificacaoService
                 }
             }
             else
-            { 
+            {
                 return "Nada foi feito";
             }
         }

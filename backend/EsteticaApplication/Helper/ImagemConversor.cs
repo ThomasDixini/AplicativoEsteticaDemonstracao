@@ -3,7 +3,7 @@ using EsteticaDominio.Produtos;
 
 namespace EsteticaApplication
 {
-    public class ImagemConversor 
+    public class ImagemConversor
     {
         public static void ConverterParaImagemBase64(List<TipoProdutos> tipoProdutos)
         {

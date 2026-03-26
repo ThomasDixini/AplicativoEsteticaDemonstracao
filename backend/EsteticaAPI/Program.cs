@@ -46,16 +46,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     )
 );
 
-builder.Services.AddControllers(config => {
+builder.Services.AddControllers(config =>
+{
     var requireAuthPolicy = new AuthorizationPolicyBuilder()
-	.RequireAuthenticatedUser()
-	.Build();
+    .RequireAuthenticatedUser()
+    .Build();
 
     config.Filters.Add(new AuthorizeFilter(requireAuthPolicy));
 });
 
 builder.Services
-            .AddIdentity<Usuarios, IdentityRole<int>>(options => {
+            .AddIdentity<Usuarios, IdentityRole<int>>(options =>
+            {
                 options.SignIn.RequireConfirmedEmail = false;
 
             })
@@ -72,14 +74,17 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 builder.Services
-            .AddAuthentication(options => {
+            .AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(jwtOptions => {
+            .AddJwtBearer(jwtOptions =>
+            {
                 jwtOptions.RequireHttpsMetadata = false;
-                jwtOptions.TokenValidationParameters = new TokenValidationParameters {
+                jwtOptions.TokenValidationParameters = new TokenValidationParameters
+                {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
                     ValidateIssuer = false,
@@ -117,8 +122,8 @@ try
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Database.CanConnect(); 
-        context.Database.Migrate(); 
+        context.Database.CanConnect();
+        context.Database.Migrate();
 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
         if (!await roleManager.RoleExistsAsync("Admin"))

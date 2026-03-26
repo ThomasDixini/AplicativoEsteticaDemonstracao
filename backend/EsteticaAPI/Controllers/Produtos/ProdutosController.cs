@@ -251,14 +251,14 @@ namespace EsteticaAPI.Controllers
                 throw;
             }
         }
-        
+
         [HttpPost("editar/produto/imagem/{ProdutoId}")]
         public async Task<IActionResult> EditarTipoConsultaImagem([FromForm] IFormFile imagem, int ProdutoId)
         {
             try
             {
                 await _produtosService.EditarProdutoImagem(imagem, ProdutoId);
-                return Ok(new { mensagem = "Imagem Editada com sucesso"});
+                return Ok(new { mensagem = "Imagem Editada com sucesso" });
             }
             catch (System.Exception ex)
             {

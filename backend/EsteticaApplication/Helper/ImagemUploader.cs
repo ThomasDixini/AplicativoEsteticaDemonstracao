@@ -13,7 +13,7 @@ namespace EsteticaApplication.Helper
             ChecaDiretorio();
             var nomeArquivo = $"imagem_{id}_{DateTime.Now.GetHashCode().ToString().Replace("-", "")}{extensao}";
             var caminhoArquivo = Path.Combine(_CurrentDirectory, nomeArquivo);
-            
+
             File.WriteAllBytes(caminhoArquivo, imagem);
             return $"/imagens/{nomeArquivo}";
         }

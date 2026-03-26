@@ -31,10 +31,10 @@ namespace EsteticaAPI.Controllers
             this._context = context;
             this._notificacaoService = notificacaoService;
         }
-        
+
         [HttpGet("listar")]
         public async Task<IActionResult> ListarConsultasAgendadas(int PaginaAtual, int ItensPorPagina, int? TipoConsultaFiltro)
-        {   
+        {
             try
             {
 
@@ -56,7 +56,7 @@ namespace EsteticaAPI.Controllers
                                                 .Take(ItensPorPagina)
                                                 .AsNoTracking()
                                                 .ToListAsync();
-                                                            
+
                     if (consultas == null || consultas.Count() <= 0) return NoContent();
 
                     return Ok(consultas);
@@ -72,7 +72,7 @@ namespace EsteticaAPI.Controllers
             catch (System.Exception ex)
             {
                 Console.WriteLine($"Database Error: {ex.InnerException?.Message ?? ex.Message}");
-                throw ;
+                throw;
             }
         }
 
@@ -118,7 +118,7 @@ namespace EsteticaAPI.Controllers
                 {
                     await _consultasService.AtualizarStatusConsulta(ConsultaId, StatusId);
                 }
-                
+
                 return Ok();
             }
             catch (System.Exception ex)
@@ -144,12 +144,12 @@ namespace EsteticaAPI.Controllers
                 }
                 else
                 {
-                    var tipoConsultas = await _consultasService.BuscarTipoConsultas(); 
+                    var tipoConsultas = await _consultasService.BuscarTipoConsultas();
                     if (tipoConsultas == null) return NoContent();
 
                     tipoConsultas = tipoConsultas.Where(c => c.Ativo == true).ToList();
 
-                    return Ok(tipoConsultas); 
+                    return Ok(tipoConsultas);
                 }
             }
             catch (System.Exception ex)
@@ -165,8 +165,8 @@ namespace EsteticaAPI.Controllers
         {
             try
             {
-                var tipoConsulta = await _consultasService.BuscarTipoConsultaPorId(TipoConsultaId); 
-                if(tipoConsulta == null) return NoContent();
+                var tipoConsulta = await _consultasService.BuscarTipoConsultaPorId(TipoConsultaId);
+                if (tipoConsulta == null) return NoContent();
 
                 return Ok(tipoConsulta);
             }
@@ -183,8 +183,8 @@ namespace EsteticaAPI.Controllers
         {
             try
             {
-                var horarios = await _consultasService.BuscarHorariosPorTipoConsulta(TipoConsultaId, DiaSelecionado); 
-                if(horarios == null || horarios.Count() == 0) return NoContent();
+                var horarios = await _consultasService.BuscarHorariosPorTipoConsulta(TipoConsultaId, DiaSelecionado);
+                if (horarios == null || horarios.Count() == 0) return NoContent();
 
                 return Ok(horarios);
             }
@@ -192,10 +192,11 @@ namespace EsteticaAPI.Controllers
             {
                 Console.WriteLine($"Database Error: {ex.InnerException?.Message ?? ex.Message}");
                 Console.WriteLine(ex.StackTrace);
-                return StatusCode(500, new { 
-                    message = ex.Message, 
-                    inner = ex.InnerException?.Message, 
-                    stack = ex.StackTrace 
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message,
+                    stack = ex.StackTrace
                 });
             }
         }
@@ -206,7 +207,7 @@ namespace EsteticaAPI.Controllers
             try
             {
                 var tipoConsulta = await _consultasService.AlterarTipoConsulta(TipoConsultaId, ativo);
-                if(tipoConsulta == null) return NoContent();
+                if (tipoConsulta == null) return NoContent();
 
                 return Ok(tipoConsulta);
             }
@@ -262,7 +263,7 @@ namespace EsteticaAPI.Controllers
             try
             {
                 await _consultasService.EditarTipoConsultaImagem(imagem, ConsultaId);
-                return Ok(new { mensagem = "Imagem Editada com sucesso"});
+                return Ok(new { mensagem = "Imagem Editada com sucesso" });
             }
             catch (System.Exception ex)
             {

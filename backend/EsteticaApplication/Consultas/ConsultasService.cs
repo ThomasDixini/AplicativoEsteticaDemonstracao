@@ -69,11 +69,11 @@ namespace EsteticaApplication
                 horarios = horarios.Where(c => !horariosIndisponiveis.Any(h => c.Inicio < h.Fim && c.Fim > h.Inicio)).ToList();
 
                 return await Task.Run(() => horarios);
-            } 
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -200,7 +200,7 @@ namespace EsteticaApplication
 
             return model;
         }
-        
+
         public async Task CadastrarTipoConsultaImagem(IFormFile imagem, int consultaId)
         {
             using var ms = new MemoryStream();

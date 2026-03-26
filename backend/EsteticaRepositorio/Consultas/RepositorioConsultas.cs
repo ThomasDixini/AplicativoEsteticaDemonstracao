@@ -59,7 +59,7 @@ namespace EsteticaRepositorio
             return await Task.Run(() => _context.HorarioConsultas.First(c => c.Id == HorarioId));
         }
 
-         public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, string DiaSelecionado)
+        public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, string DiaSelecionado)
         {
             var dataFormatada = DateTime.ParseExact(
                 DiaSelecionado,

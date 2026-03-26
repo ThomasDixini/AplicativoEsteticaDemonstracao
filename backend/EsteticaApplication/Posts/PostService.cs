@@ -30,7 +30,7 @@ namespace EsteticaApplication
             post.QuantidadeLike = 0;
             post.Titulo = post.Titulo.ToUpper();
             post.Descricao = post.Descricao.ToUpper();
-            if(!post.ImagemURL.Contains("http://") || !post.ImagemURL.Contains("https://")) throw new Exception("URL da imagem inválida.");
+            if (!post.ImagemURL.Contains("http://") || !post.ImagemURL.Contains("https://")) throw new Exception("URL da imagem inválida.");
 
             _repositorioEstetica.Add(post);
             await _repositorioEstetica.SaveChangesAsync();
@@ -41,10 +41,10 @@ namespace EsteticaApplication
         public async Task<bool> DeletarPost(int PostId)
         {
             var post = await _repositorioPosts.BuscarPostPorId(PostId);
-            if(post == null) throw new Exception("Post inexistente.");
+            if (post == null) throw new Exception("Post inexistente.");
 
             _repositorioEstetica.Delete(post);
-            if(await _repositorioEstetica.SaveChangesAsync())
+            if (await _repositorioEstetica.SaveChangesAsync())
             {
                 return true;
             }
@@ -60,7 +60,7 @@ namespace EsteticaApplication
             post.QuantidadeLike = 0;
             post.Titulo = post.Titulo.ToUpper();
             post.Descricao = post.Descricao.ToUpper();
-            if(!post.ImagemURL.Contains("http://") || !post.ImagemURL.Contains("https://")) throw new Exception("URL da imagem inválida.");
+            if (!post.ImagemURL.Contains("http://") || !post.ImagemURL.Contains("https://")) throw new Exception("URL da imagem inválida.");
 
             _repositorioEstetica.Update(post);
             await _repositorioEstetica.SaveChangesAsync();

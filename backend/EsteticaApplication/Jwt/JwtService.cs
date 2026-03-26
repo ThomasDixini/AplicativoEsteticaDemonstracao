@@ -23,7 +23,7 @@ namespace EsteticaApplication.Jwt
 
         public async Task<string> CreateToken(Usuarios user)
         {
-            var signingCredentials= new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
+            var signingCredentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -34,7 +34,8 @@ namespace EsteticaApplication.Jwt
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var descriptor = new SecurityTokenDescriptor {
+            var descriptor = new SecurityTokenDescriptor
+            {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = signingCredentials

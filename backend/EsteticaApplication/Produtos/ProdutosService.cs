@@ -86,16 +86,16 @@ namespace EsteticaApplication
         public async Task<bool> InativarProduto(int ProdutoId)
         {
             var produto = await _repositorioProdutos.BuscarProdutoPorId(ProdutoId);
-            if(produto == null) throw new Exception("Produto inexistente");
+            if (produto == null) throw new Exception("Produto inexistente");
 
             produto.Ativo = false;
 
             _repositorioEstetica.Update(produto);
-            if(await _repositorioEstetica.SaveChangesAsync())
+            if (await _repositorioEstetica.SaveChangesAsync())
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
@@ -118,7 +118,7 @@ namespace EsteticaApplication
             var tipoProduto = await _repositorioProdutos.BuscarTipoProdutoPorId(TipoProdutoId);
             return tipoProduto;
         }
-        
+
         public async Task<Produtos?> AlterarProduto(int ProdutoId, bool ativo)
         {
             var produto = await _repositorioProdutos.BuscarProdutoPorId(ProdutoId);

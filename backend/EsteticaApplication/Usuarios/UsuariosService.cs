@@ -63,7 +63,7 @@ namespace EsteticaApplication
 
                 usuarioLogado.PasswordHash = hashedSenha;
             }
-            
+
             _repositorioEstetica.Update(usuarioLogado);
             await _repositorioEstetica.SaveChangesAsync();
         }
@@ -85,7 +85,7 @@ namespace EsteticaApplication
             }
             catch (System.Exception)
             {
-                
+
                 throw;
             }
         }

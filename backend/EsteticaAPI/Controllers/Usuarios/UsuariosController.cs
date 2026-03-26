@@ -23,9 +23,9 @@ namespace EsteticaAPI.Controllers
         private readonly SignInManager<Usuarios> _signInManager;
 
         public UsuariosController(
-            IUsuariosService usuarioService, 
-            JwtService jwtService, 
-            UserManager<Usuarios> userManager, 
+            IUsuariosService usuarioService,
+            JwtService jwtService,
+            UserManager<Usuarios> userManager,
             SignInManager<Usuarios> signInManager)
         {
             this._usuarioService = usuarioService;
@@ -49,7 +49,7 @@ namespace EsteticaAPI.Controllers
                     Cidade = usuarioLogado.Cidade,
                     Telefone = usuarioLogado.Telefone,
                 };
-                
+
                 return Ok(usuarioDTO);
             }
             catch (System.Exception ex)
@@ -68,7 +68,7 @@ namespace EsteticaAPI.Controllers
                 if (usuarioLogado == null) return NoContent();
 
                 await _userManager.DeleteAsync(usuarioLogado);
-                
+
                 return NoContent();
             }
             catch (System.Exception ex)
@@ -85,13 +85,13 @@ namespace EsteticaAPI.Controllers
         {
             try
             {
-                if(login.Password == null || login.Username == null) return BadRequest("'username' ou 'password' do objeto não foi fornecido.");
+                if (login.Password == null || login.Username == null) return BadRequest("'username' ou 'password' do objeto não foi fornecido.");
 
                 var usuario = await _usuarioService.BuscarUsuarioPorUsername(login.Username);
                 if (usuario == null) return BadRequest("Não existe usuário com esse Username");
 
                 var result = await _signInManager.CheckPasswordSignInAsync(usuario, login.Password, false);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     var token = await _jwtService.CreateToken(usuario);
                     bool isAdmin = await _userManager.IsInRoleAsync(usuario, "Admin");
@@ -130,15 +130,15 @@ namespace EsteticaAPI.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(usuario, model.Password);
-                
-                if(result.Succeeded)
+
+                if (result.Succeeded)
                 {
                     var admins = await _usuarioService.BuscarUsuariosAdm();
-                    if(admins == null || admins.Count == 0)
+                    if (admins == null || admins.Count == 0)
                     {
                         await _userManager.AddToRoleAsync(usuario, "Admin");
                     }
-                    
+
                     await _signInManager.SignInAsync(usuario, false);
                     return Ok("Usuário registrado com sucesso!");
                 }
@@ -197,7 +197,7 @@ namespace EsteticaAPI.Controllers
                 if (usuarioLogado == null) return BadRequest();
 
                 var response = await _usuarioService.SalvarNotificacaoToken(usuarioLogado, NotificacaoToken);
-                
+
                 return response == true ? Ok("Notificacao cadastrada com sucesso!") : Ok("Ja possui Token");
             }
             catch (System.Exception ex)

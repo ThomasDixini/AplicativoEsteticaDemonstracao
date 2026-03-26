@@ -6,7 +6,8 @@ namespace EsteticaRepositorio
     {
         private readonly ApplicationDbContext _context;
 
-        public RepositorioEstetica(ApplicationDbContext context){
+        public RepositorioEstetica(ApplicationDbContext context)
+        {
             this._context = context;
         }
         public void Add<T>(T Entity) where T : class
