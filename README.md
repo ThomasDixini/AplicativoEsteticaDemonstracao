@@ -1,4 +1,5 @@
 [![CI](https://github.com/ThomasDixini/AplicativoEsteticaDemonstracao/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/ThomasDixini/AplicativoEsteticaDemonstracao/actions/workflows/dotnet-ci.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=ThomasDixini_AplicativoEsteticaDemonstracao&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ThomasDixini_AplicativoEsteticaDemonstracao)
 
 🌍 **Languages:** [Português](README.md) | [English](README.en.md)
 
