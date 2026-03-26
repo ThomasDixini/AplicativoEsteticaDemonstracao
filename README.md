@@ -1,3 +1,5 @@
+[![CI](https://github.com/ThomasDixini/AplicativoEsteticaDemonstracao/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/ThomasDixini/AplicativoEsteticaDemonstracao/actions/workflows/dotnet-ci.yml)
+
 🌍 **Languages:** [Português](README.md) | [English](README.en.md)
 
 
