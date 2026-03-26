@@ -36,6 +36,7 @@ jobs:
   analyze:
     name: Analyze (Sonar Cube)
     runs-on: ubuntu-latest
+    needs: build
 
     defaults:
       run:
