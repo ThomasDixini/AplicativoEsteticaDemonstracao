@@ -12,6 +12,10 @@ jobs:
     name: Build (.NET 9)
     runs-on: windows-latest
 
+    defaults:
+      run:
+        working-directory: back-end
+
     steps:
       - name: Checkout do repositorio
         uses: actions/checkout@v4
