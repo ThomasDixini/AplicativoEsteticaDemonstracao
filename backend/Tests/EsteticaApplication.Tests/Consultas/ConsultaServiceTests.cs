@@ -182,7 +182,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
 
             var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DiaSelecionado);
 
-            resultado.Should().HaveCount(1); 
+            resultado.Should().HaveCount(1);
         }
 
         [Fact]
