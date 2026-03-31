@@ -84,7 +84,7 @@ namespace EsteticaApplication
 
             return model;
         }
-        public async Task<List<HorarioConsultas>> CadastrarHorariosConsulta(List<HorarioConsultas> model, int TipoConsultaId)
+        public virtual async Task<List<HorarioConsultas>> CadastrarHorariosConsulta(List<HorarioConsultas> model, int TipoConsultaId)
         {
             foreach (var item in model)
             {
