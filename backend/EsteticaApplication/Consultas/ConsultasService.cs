@@ -160,7 +160,7 @@ namespace EsteticaApplication
             var data = model.Data;
             var tipoConsulta = await _repositorioConsultas.BuscarTipoConsultaPorId(model.TipoConsultaId);
             var consultas = await _repositorioConsultas.BuscarConsultasPorData(data);
-            var consultaReservada = consultas.FirstOrDefault(c => c.Inicio >= data.TimeOfDay && c.Fim <= data.TimeOfDay);
+            var consultaReservada = consultas.FirstOrDefault(c =>  c.Inicio < model.Fim && c.Fim > model.Inicio);
 
             if (consultaReservada != null)
             {
