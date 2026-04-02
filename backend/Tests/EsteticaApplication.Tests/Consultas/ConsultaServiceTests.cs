@@ -18,6 +18,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
     {
         private readonly Mock<IRepositorioConsultas> _repositorioMock;
         private readonly Mock<IRepositorioEstetica> _repositorioGeralMock;
+        private readonly Mock<INotificacaoService> _notificacaoService;
         private readonly ConsultasService _consultaService;
 
         private const string DiaSelecionado = "25/12/2024";
@@ -27,11 +28,12 @@ namespace EsteticaApplication.Tests.ConsultasTests
         {
             _repositorioMock = new Mock<IRepositorioConsultas>();
             _repositorioGeralMock = new Mock<IRepositorioEstetica>();
+            _notificacaoService = new Mock<INotificacaoService>();
 
             _consultaService = new ConsultasService(
                 _repositorioMock.Object,
                 _repositorioGeralMock.Object,
-                new Mock<INotificacaoService>().Object,
+                _notificacaoService.Object,
                 null!
             );
         }
@@ -511,6 +513,131 @@ namespace EsteticaApplication.Tests.ConsultasTests
             await act.Should().ThrowAsync<NullReferenceException>().WithMessage("Object reference not set to an instance of an object.");
             _repositorioGeralMock.Verify(r => r.Add(It.IsAny<HorarioConsultas>()), Times.Exactly(1));
             _repositorioGeralMock.Verify(r => r.SaveChangesAsync(), Times.Never);
+        }
+
+        [Fact]
+        public async Task CancelarConsulta_AlterarStatus_QuandoConsultaExistente()
+        {
+            int consultaId = 1;
+            var consulta = new Consultas { Id = consultaId, Status = StatusConsulta.AGENDADA, TipoConsulta = new TipoConsulta { Nome = "Corte de Cabelo" }, UsuarioId = 123 };
+            _repositorioMock.Setup(repo => repo.BuscarConsultaPorId(consultaId, false)).ReturnsAsync(consulta);
+            _repositorioGeralMock
+                .SetupSequence(r => r.SaveChangesAsync())
+                .ReturnsAsync(true)
+                .ReturnsAsync(true);
+
+            var resultado = await _consultaService.CancelarConsulta(consultaId);
+
+            resultado.Should().BeTrue();
+            consulta.Status.Should().Be(StatusConsulta.CANCELADA);
+            _notificacaoService.Verify(n =>
+                n.EnviarNotificacaoParaAdmin(It.IsAny<string>(), "Consulta cancelada!"),
+                Times.Once);
+
+            _notificacaoService.Verify(n =>
+                n.EnviarNotificacaoParaCliente(It.IsAny<string>(), "Consulta cancelada!", consulta.UsuarioId),
+                Times.Once);      
+            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Exactly(2));    
+            _repositorioGeralMock.Verify(repo => repo.Update(consulta), Times.Once);    
+        }
+        [Fact]
+        public async Task CancelarConsulta_DeveRetornarErro_QuandoConsultaNaoExistente()
+        {
+            int consultaId = 1;
+
+            var resultado = async () => await _consultaService.CancelarConsulta(consultaId);
+
+            await resultado.Should().ThrowAsync<Exception>().WithMessage("Consulta inexistente!");
+            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Never);
+        }
+        [Fact]
+        public async Task CancelarConsulta_DeveRetornarErro_QuandoConsultaConcluida()
+        {
+            int consultaId = 1;
+            var consulta = new Consultas { Id = consultaId, Status = StatusConsulta.CONCLUIDA, TipoConsulta = new TipoConsulta { Nome = "Corte de Cabelo" }, UsuarioId = 123 };
+            _repositorioMock.Setup(repo => repo.BuscarConsultaPorId(consultaId, false)).ReturnsAsync(consulta);
+
+            var resultado = async () => await _consultaService.CancelarConsulta(consultaId);
+
+            await resultado.Should().ThrowAsync<Exception>().WithMessage("Você não pode cancelar uma consulta já finalizada!");
+            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Never);
+        }
+
+        [Fact]
+        public async Task MarcarConsulta_DeveRetornarConsultaMarcada_QuandoDadosValidos()
+        {
+            var consulta = new Consultas
+            {
+                Id = 1,
+                TipoConsultaId = 1,
+                Data = DateTime.Now.Date.AddDays(1),
+                Inicio = new TimeSpan(9, 0, 0),
+                Fim = new TimeSpan(10, 0, 0),
+                Status = StatusConsulta.AGUARDANDO_CONFIRMACAO,
+                UsuarioId = 123,
+            };
+            var tipoConsultaEsperado = new TipoConsulta { Id = 1, Nome = "Corte de Cabelo", ValorAtual = 15000 };
+            _repositorioMock.Setup(repo => repo.BuscarTipoConsultaPorId(consulta.TipoConsultaId)).ReturnsAsync(tipoConsultaEsperado);
+            _repositorioMock.Setup(repo => repo.BuscarConsultasPorData(consulta.Data)).ReturnsAsync(new List<Consultas>());
+            _notificacaoService.Setup(n => n.EnviarNotificacaoParaAdmin(It.IsAny<string>(), "Consulta Marcada!")).Returns(Task.CompletedTask);
+
+            var resultado = await _consultaService.MarcarConsulta(consulta);
+
+            resultado.Should().NotBeNull();
+            resultado.Status.Should().Be(StatusConsulta.AGUARDANDO_CONFIRMACAO);
+            resultado.Valor.Should().Be(tipoConsultaEsperado.ValorAtual);
+            _repositorioGeralMock.Verify(repo => repo.Add(It.Is<Consultas>(c => c.TipoConsultaId == consulta.TipoConsultaId && c.Data == consulta.Data && c.Inicio == consulta.Inicio && c.Fim == consulta.Fim && c.Status == StatusConsulta.AGUARDANDO_CONFIRMACAO && c.Valor == tipoConsultaEsperado.ValorAtual)), Times.Once);
+            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+            _notificacaoService.Verify(n => n.EnviarNotificacaoParaAdmin(It.IsAny<string>(), "Consulta Marcada!"), Times.Once);
+        }
+        [Fact]
+        public async Task MarcarConsulta_NaoDeveMarcarConsulta_QuandoHorarioJaReservado()
+        {
+            var consulta = new Consultas
+            {
+                Id = 1,
+                TipoConsultaId = 1,
+                Data = DateTime.Now.Date.AddDays(1),
+                Inicio = new TimeSpan(9, 0, 0),
+                Fim = new TimeSpan(10, 0, 0),
+                Status = StatusConsulta.AGUARDANDO_CONFIRMACAO,
+                UsuarioId = 123,
+            };
+            var tipoConsultaEsperado = new TipoConsulta { Id = 1, Nome = "Corte de Cabelo", ValorAtual = 15000 };
+            var consultas = new List<Consultas>
+            {
+                new () { Id = 2, TipoConsultaId = 1, Data = DateTime.Now.Date.AddDays(1), Status = StatusConsulta.AGENDADA, Inicio = consulta.Inicio, Fim = consulta.Fim }
+            };
+            _repositorioMock.Setup(repo => repo.BuscarTipoConsultaPorId(consulta.TipoConsultaId)).ReturnsAsync(tipoConsultaEsperado);
+            _repositorioMock.Setup(repo => repo.BuscarConsultasPorData(consulta.Data)).ReturnsAsync(consultas);
+
+            var resultado = async () => await _consultaService.MarcarConsulta(consulta);
+
+            await resultado.Should().ThrowAsync<Exception>().WithMessage("Já existe consulta marcada nesse horário!");
+        }
+
+        [Theory]
+        [InlineData(StatusConsulta.AGUARDANDO_CONFIRMACAO)]
+        [InlineData(StatusConsulta.AGENDADA)]
+        [InlineData(StatusConsulta.CONCLUIDA)]
+        [InlineData(StatusConsulta.CANCELADA)]
+        public async Task AtualizarStatusConsulta(StatusConsulta statusConsulta)
+        {
+            int consultaId = 1;
+            var consulta = new Consultas { Id = consultaId, Status = StatusConsulta.AGUARDANDO_CONFIRMACAO, UsuarioId = 123 };
+
+            _repositorioMock.Setup(repo => repo.BuscarConsultaPorId(consultaId, true)).ReturnsAsync(consulta);
+            _notificacaoService.Setup(n => n.EnviarNotificacaoParaCliente(It.IsAny<string>(), It.IsAny<string>(), consulta.UsuarioId)).Returns(Task.Run(() => "Notificação enviada para cliente"));
+
+            await _consultaService.AtualizarStatusConsulta(consultaId, statusConsulta);
+
+            consulta.Status.Should().Be(statusConsulta);
+            _repositorioGeralMock.Verify(repo => repo.Update(consulta), Times.Once);
+            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
+
+            _notificacaoService.Verify(n =>
+                n.EnviarNotificacaoParaCliente(It.IsAny<string>(), It.IsAny<string>(), consulta.UsuarioId),
+                Times.Once);
         }
     }
 }
