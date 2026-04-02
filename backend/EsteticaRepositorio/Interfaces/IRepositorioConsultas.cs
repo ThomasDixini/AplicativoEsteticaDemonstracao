@@ -10,7 +10,7 @@ namespace EsteticaRepositorio.Interfaces
     public interface IRepositorioConsultas
     {
         Task<List<Consultas>> BuscarConsultas(int PaginaAtual, int ItensPorPagina, int? TipoConsultaFiltro);
-        Task<Consultas?> BuscarConsultaPorId(int ConsultaId);
+        Task<Consultas?> BuscarConsultaPorId(int ConsultaId, bool? ignorarQueryFilters = false);
         Task<List<Consultas>> BuscarConsultasPorData(DateTime Data);
         Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveisPorData(DateTime Data);
 

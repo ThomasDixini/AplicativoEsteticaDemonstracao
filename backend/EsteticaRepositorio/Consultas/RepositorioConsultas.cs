@@ -13,10 +13,11 @@ namespace EsteticaRepositorio
         {
             this._context = context;
         }
-        public async Task<Consultas?> BuscarConsultaPorId(int ConsultaId)
+        public async Task<Consultas?> BuscarConsultaPorId(int ConsultaId, bool? ignorarQueryFilters = false)
         {
-            return await _context.Consultas.Include(c => c.TipoConsulta)
-            .FirstOrDefaultAsync(c => c.Id == ConsultaId);
+            return ignorarQueryFilters == true 
+                ? await _context.Consultas.Include(c => c.TipoConsulta).IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == ConsultaId)
+                : await _context.Consultas.Include(c => c.TipoConsulta).FirstOrDefaultAsync(c => c.Id == ConsultaId);
         }
 
         public async Task<List<Consultas>> BuscarConsultas(int PaginaAtual, int ItensPorPagina, int? TipoConsultaFiltro)

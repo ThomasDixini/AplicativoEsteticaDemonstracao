@@ -255,7 +255,7 @@ namespace EsteticaApplication
         public async Task AtualizarStatusConsulta(int ConsultaId, StatusConsulta statusConsulta)
         {
 
-            var consulta = await _context.Consultas.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == ConsultaId);
+            var consulta = await _repositorioConsultas.BuscarConsultaPorId(ConsultaId, true);
             if (consulta != null)
             {
                 consulta.Status = statusConsulta;
