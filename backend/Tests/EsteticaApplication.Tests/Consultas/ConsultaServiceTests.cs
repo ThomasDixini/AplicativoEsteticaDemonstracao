@@ -493,8 +493,8 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 } }
              };
 
-             var resultado = await _consultaService.CadastrarHorariosConsulta(horarios, tipoConsultaId);
-            
+            var resultado = await _consultaService.CadastrarHorariosConsulta(horarios, tipoConsultaId);
+
             _repositorioGeralMock.Verify(r => r.Add(It.Is<HorarioConsultas>(h => h.TipoConsultaHorarios.All(tch => tch.HorarioId == h.Id && tch.TipoConsultaId == tipoConsultaId && tch.DataReserva == It.IsAny<DateTime>() && tch.Reservado == false))), Times.Exactly(horarios.Count));
             _repositorioGeralMock.Verify(r => r.SaveChangesAsync(), Times.Once);
         }
@@ -509,7 +509,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
             };
 
             var act = async () => await _consultaService.CadastrarHorariosConsulta(horarios, tipoConsultaId);
-            
+
             await act.Should().ThrowAsync<NullReferenceException>().WithMessage("Object reference not set to an instance of an object.");
             _repositorioGeralMock.Verify(r => r.Add(It.IsAny<HorarioConsultas>()), Times.Exactly(1));
             _repositorioGeralMock.Verify(r => r.SaveChangesAsync(), Times.Never);
@@ -536,9 +536,9 @@ namespace EsteticaApplication.Tests.ConsultasTests
 
             _notificacaoService.Verify(n =>
                 n.EnviarNotificacaoParaCliente(It.IsAny<string>(), "Consulta cancelada!", consulta.UsuarioId),
-                Times.Once);      
-            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Exactly(2));    
-            _repositorioGeralMock.Verify(repo => repo.Update(consulta), Times.Once);    
+                Times.Once);
+            _repositorioGeralMock.Verify(repo => repo.SaveChangesAsync(), Times.Exactly(2));
+            _repositorioGeralMock.Verify(repo => repo.Update(consulta), Times.Once);
         }
         [Fact]
         public async Task CancelarConsulta_DeveRetornarErro_QuandoConsultaNaoExistente()

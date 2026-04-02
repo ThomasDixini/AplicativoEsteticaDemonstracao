@@ -15,7 +15,7 @@ namespace EsteticaRepositorio
         }
         public async Task<Consultas?> BuscarConsultaPorId(int ConsultaId, bool? ignorarQueryFilters = false)
         {
-            return ignorarQueryFilters == true 
+            return ignorarQueryFilters == true
                 ? await _context.Consultas.Include(c => c.TipoConsulta).IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == ConsultaId)
                 : await _context.Consultas.Include(c => c.TipoConsulta).FirstOrDefaultAsync(c => c.Id == ConsultaId);
         }
