@@ -58,7 +58,7 @@ jobs:
           dotnet test --no-restore --verbosity normal \
             /p:CollectCoverage=true \
             /p:CoverletOutputFormat=opencover \
-            /p:CoverletOutput=./coverage.opencover.xml
+            /p:CoverletOutput=${{ github.workspace }}/backend/coverage.opencover.xml
       
       - name: Debug - listar XMLs gerados
         run: find . -name "*.opencover.xml" || find $HOME -name "*.opencover.xml" || echo "Nenhum XML encontrado"
@@ -77,7 +77,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: backend/**/coverage.opencover.xml
+          path: backend/coverage.opencover.xml
           if-no-files-found: error
   analyze:
     name: Analyze (Sonar Cube)
@@ -110,6 +110,7 @@ jobs:
         with:
           name: coverage-report
           path: backend
+
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
@@ -134,6 +135,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"ThomasDixini_AplicativoEsteticaDemonstracao" /o:"thomasdixini" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"ThomasDixini_AplicativoEsteticaDemonstracao" /o:"thomasdixini" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="${{ github.workspace }}\backend\coverage.opencover.xml"
           dotnet build
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
