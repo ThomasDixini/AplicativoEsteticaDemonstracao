@@ -17,8 +17,6 @@ public class ApplicationDbContext : IdentityDbContext<Usuarios, IdentityRole<int
     public DbSet<TipoConsulta> TipoConsulta { get; set; }
     public DbSet<TipoProdutos> TipoProdutos { get; set; }
     public DbSet<Produtos> Produtos { get; set; }
-    public DbSet<Posts> Posts { get; set; }
-    public DbSet<PostsUsuarios> PostsUsuarios { get; set; }
     public DbSet<HorarioConsultas> HorarioConsultas { get; set; }
     public DbSet<HorariosIndisponiveis> HorariosIndisponiveis { get; set; }
     public DbSet<TipoConsultaHorarios> TipoConsultaHorarios { get; set; }
@@ -56,8 +54,6 @@ public class ApplicationDbContext : IdentityDbContext<Usuarios, IdentityRole<int
         modelBuilder.Entity<TipoConsulta>().Property(c => c.ValorAtual).HasPrecision(16, 2);
         modelBuilder.Entity<Produtos>().Property(c => c.ValorDeVenda).HasPrecision(16, 2);
         modelBuilder.Entity<Produtos>().Property(c => c.ValorDeCusto).HasPrecision(16, 2);
-
-        modelBuilder.Entity<PostsUsuarios>().HasKey(c => new { c.UsuarioId, c.PostId });
 
         if (_UsuarioId != 0)
         {

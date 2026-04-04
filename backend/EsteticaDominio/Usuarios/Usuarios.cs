@@ -20,7 +20,5 @@ namespace EsteticaDominio
         public string NovaSenha { get; set; }
         public IEnumerable<IdentityUserRole<int>> Roles { get; set; }
         public List<Consultas> Consultas { get; set; }
-        public List<PostsUsuarios> PostsUsuarios { get; set; }
-
     }
 }
