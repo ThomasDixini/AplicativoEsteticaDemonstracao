@@ -50,22 +50,21 @@ jobs:
           
       - name: Restaurar dependencias
         run: dotnet restore
-        
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Instalar Coverlet CLI
+        run: dotnet tool install --global coverlet.console
+
       - name: Test com cobertura
         run: |
-          dotnet test --no-restore --verbosity normal \
-            /p:CollectCoverage=true \
-            /p:CoverletOutputFormat=opencover \
-            /p:CoverletOutput=${{ github.workspace }}/coverage.opencover.xml
-
-      - name: Debug - estrutura do repositorio
-        run: |
-          echo "=== Estrutura completa ==="
-          find /home/runner/work -name "*.csproj" 2>/dev/null
-          find /home/runner/work -name "*.sln" 2>/dev/null
-      
-      - name: Debug - conteudo do csproj
-        run: cat ${{ github.workspace }}/backend/Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj
+          coverlet \
+            ${{ github.workspace }}/backend/Tests/EsteticaApplication.Tests/bin/Debug/net9.0/EsteticaApplication.Tests.dll \
+            --target "dotnet" \
+            --targetargs "test ${{ github.workspace }}/backend/Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj --no-build --no-restore" \
+            --format opencover \
+            --output ${{ github.workspace }}/coverage.opencover.xml
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
