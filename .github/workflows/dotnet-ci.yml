@@ -60,8 +60,18 @@ jobs:
             /p:CoverletOutputFormat=opencover \
             /p:CoverletOutput=./coverage.opencover.xml
       
-      - name: Debug - listar XMLs gerados 
-        run: find / -name "*.opencover.xml" 2>/dev/null
+      - name: Debug - listar XMLs gerados
+        run: find . -name "*.opencover.xml" || find $HOME -name "*.opencover.xml" || echo "Nenhum XML encontrado"
+
+      - name: Debug - listar tudo no working dir
+        working-directory: backend
+        run: |
+          echo "=== Estrutura do backend ==="
+          find . -name "*.xml" | head -50
+          echo "=== Arquivos de cobertura ==="
+          find . -name "*coverage*"
+          echo "=== Pastas de teste ==="
+          ls -la Tests/ || echo "Pasta Tests nao encontrada"
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
