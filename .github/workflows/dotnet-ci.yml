@@ -58,7 +58,7 @@ jobs:
           dotnet test --no-restore --verbosity normal \
             /p:CollectCoverage=true \
             /p:CoverletOutputFormat=opencover \
-            /p:CoverletOutput=${{ github.workspace }}/backend/coverage.opencover.xml
+            /p:CoverletOutput=coverage.opencover.xml
       
       - name: Debug - listar XMLs gerados
         run: find . -name "*.opencover.xml" || find $HOME -name "*.opencover.xml" || echo "Nenhum XML encontrado"
