@@ -63,6 +63,9 @@ jobs:
           echo "=== Estrutura completa ==="
           find /home/runner/work -name "*.csproj" 2>/dev/null
           find /home/runner/work -name "*.sln" 2>/dev/null
+      
+      - name: Debug - conteudo do csproj
+        run: cat ${{ github.workspace }}/backend/Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
