@@ -294,7 +294,7 @@ namespace EsteticaApplication.Tests.ProdutosTests
             };
             _repositorioProdutos.Setup(r => r.BuscarProdutos()).ReturnsAsync(listaProdutos);
 
-             var resultado = await _produtosService.ListarProdutos();
+            var resultado = await _produtosService.ListarProdutos();
 
             resultado.Should().HaveCount(2);
             resultado.Should().BeEquivalentTo(listaProdutos);
@@ -372,9 +372,9 @@ namespace EsteticaApplication.Tests.ProdutosTests
             int tipoProdutoId = 1;
             bool ativo = false;
 
-             var resultado = await _produtosService.AlterarTipoProduto(tipoProdutoId, ativo);
+            var resultado = await _produtosService.AlterarTipoProduto(tipoProdutoId, ativo);
 
-             resultado.Should().BeNull();
+            resultado.Should().BeNull();
         }
         [Fact]
         public async Task AlterarTipoProduto()
@@ -472,8 +472,8 @@ namespace EsteticaApplication.Tests.ProdutosTests
 
             await _produtosService.EditarProdutoImagem(imagem, produtoId);
 
-             _repositorioEstetica.Verify(r => r.Update(It.Is<Produtos>(p => p.Id == produtoId && p.UriImagem != null)), Times.Once);
-             _repositorioEstetica.Verify(r => r.SaveChangesAsync(), Times.Once);
+            _repositorioEstetica.Verify(r => r.Update(It.Is<Produtos>(p => p.Id == produtoId && p.UriImagem != null)), Times.Once);
+            _repositorioEstetica.Verify(r => r.SaveChangesAsync(), Times.Once);
         }
         [Fact]
         public async Task EditarProdutoImagem_DeveLancarExcecao_QuandoProdutoNaoExistir()
