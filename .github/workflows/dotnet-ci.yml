@@ -58,6 +58,17 @@ jobs:
             /p:CoverletOutputFormat=opencover \
             /p:CoverletOutput=${{ github.workspace }}/coverage.opencover.xml
 
+      - name: Debug - verificar cobertura
+        run: |
+          echo "=== github.workspace ==="
+          echo "${{ github.workspace }}"
+          echo "=== Todos XMLs no runner ==="
+          find /home/runner/work -name "*.xml" 2>/dev/null | head -30
+          echo "=== Todos arquivos coverage ==="
+          find /home/runner/work -name "*coverage*" 2>/dev/null
+          echo "=== .csproj do projeto de testes ==="
+          cat backend/Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
