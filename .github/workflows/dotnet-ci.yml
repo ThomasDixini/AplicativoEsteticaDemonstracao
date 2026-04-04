@@ -56,12 +56,12 @@ jobs:
       - name: Test com cobertura
         run: |
           dotnet test Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj --collect "XPlat Code Coverage" --results-directory ../../../TestResults
-      
+
       - name: Converter cobertura para Cobertura XML
         run: |
           dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.5.4
           reportgenerator -reports:"TestResults/**/*.coverage" -targetdir:TestResults -reporttypes:Cobertura
-      
+
       - name: Debug - listar XMLs gerados
         run: find . -name "*.opencover.xml" || find $HOME -name "*.opencover.xml" || echo "Nenhum XML encontrado"
 
