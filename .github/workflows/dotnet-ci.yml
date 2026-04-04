@@ -55,7 +55,7 @@ jobs:
         
       - name: Test com cobertura
         run: |
-          dotnet test Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj --collect "XPlat Code Coverage" --results-directory ../../../TestResults
+          dotnet test --project Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj --collect "XPlat Code Coverage" --results-directory ../../../TestResults
 
       - name: Converter cobertura para Cobertura XML
         run: |
