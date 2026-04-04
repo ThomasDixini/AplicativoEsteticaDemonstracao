@@ -53,11 +53,21 @@ jobs:
       - name: Restaurar dependencias
         run: dotnet restore
         
-      - name: Test
-        run: dotnet test --no-restore --verbosity normal
+      - name: Test com cobertura
+        run: |
+          dotnet test --no-restore --verbosity normal \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: '**/coverage.opencover.xml'
   analyze:
     name: Analyze (Sonar Cube)
     runs-on: windows-latest
+    needs: [ build, tests ]
 
     defaults:
       run:
@@ -72,6 +82,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restaurar dependencias
+        run: dotnet restore
+
+      - name: Download coverage report  # 👈 baixa o artefato do job tests
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
