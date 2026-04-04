@@ -138,7 +138,8 @@ jobs:
             /k:"ThomasDixini_AplicativoEsteticaDemonstracao" `
             /o:"thomasdixini" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-            /d:sonar.cs.opencover.reportsPaths="${{ github.workspace }}\coverage.opencover.xml"
+            /d:sonar.cs.opencover.reportsPaths="${{ github.workspace }}\coverage.opencover.xml" `
+            /d:sonar.coverage.exclusions="**/EsteticaRepositorio/**,**/Migrations/**"
 
           dotnet build --no-restore
 
