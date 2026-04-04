@@ -56,8 +56,9 @@ jobs:
       - name: Test com cobertura
         run: |
           dotnet test --no-restore --verbosity normal \
-            --collect:"XPlat Code Coverage" \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=opencover \
+            /p:CoverletOutput=./coverage.opencover.xml
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
