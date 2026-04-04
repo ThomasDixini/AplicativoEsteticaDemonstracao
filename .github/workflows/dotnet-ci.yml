@@ -64,7 +64,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: '**/coverage.opencover.xml'
+          path: backend/**/coverage.opencover.xml
+          if-no-files-found: error
   analyze:
     name: Analyze (Sonar Cube)
     runs-on: windows-latest
@@ -79,10 +80,10 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -91,10 +92,11 @@ jobs:
       - name: Restaurar dependencias
         run: dotnet restore
 
-      - name: Download coverage report  # 👈 baixa o artefato do job tests
+      - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
           name: coverage-report
+          path: backend
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
