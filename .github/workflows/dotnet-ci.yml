@@ -33,10 +33,31 @@ jobs:
         
       - name: Lint (Format check)
         run: dotnet format --verify-no-changes --no-restore
+  tests:
+    name: Test (.NET 9)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+          
+      - name: Restaurar dependencias
+        run: dotnet restore
+        
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
   analyze:
     name: Analyze (Sonar Cube)
     runs-on: windows-latest
-    needs: build
 
     defaults:
       run:
