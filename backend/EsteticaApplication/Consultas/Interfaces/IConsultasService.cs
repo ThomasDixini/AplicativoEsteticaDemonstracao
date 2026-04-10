@@ -16,7 +16,7 @@ namespace EsteticaApplication
         Task<List<TipoConsulta>> BuscarTipoConsultas();
         Task<TipoConsulta?> BuscarTipoConsultaPorId(int TipoConsultaId);
         Task<TipoConsulta?> AlterarTipoConsulta(int TipoConsultaId, bool ativo);
-        Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, string DiaSelecionado);
+        Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, DateTime DiaSelecionado);
         Task<HorarioConsultas> CadastrarHorarioConsulta(HorarioConsultas model);
         Task<List<HorarioConsultas>> CadastrarHorariosConsulta(List<HorarioConsultas> model, int TipoConsultaId);
         Task<TipoConsulta> CadastrarTipoConsulta(TipoConsulta model);
@@ -26,7 +26,7 @@ namespace EsteticaApplication
         Task EditarHorario(HorarioConsultas horario);
         Task EditarHorarios(int TipoConsultaId, List<HorarioConsultas> horario);
         Task DefinirHorariosIndisponiveis(HorariosIndisponiveis model);
-        Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, string Data);
+        Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, DateTime Data);
         Task EditarHorariosIndisponiveis(List<HorariosIndisponiveis> model);
         Task AtualizarStatusConsulta(int ConsultaId, StatusConsulta statusConsulta);
     }

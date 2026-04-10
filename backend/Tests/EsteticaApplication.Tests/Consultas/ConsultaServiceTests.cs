@@ -121,7 +121,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 new HorarioConsultas { Id = 2, Inicio = new TimeSpan(10, 1, 0), Fim = new TimeSpan(11, 0, 0), Ativo = true }
             };
 
-            _repositorioMock.Setup(repo => repo.BuscarHorariosPorTipoConsulta(tipoConsultaId, DiaSelecionado)).ReturnsAsync(horariosEsperados);
+            _repositorioMock.Setup(repo => repo.BuscarHorariosPorTipoConsulta(tipoConsultaId)).ReturnsAsync(horariosEsperados);
 
             _repositorioMock.Setup(repo => repo.BuscarConsultasPorData(DataFormatada))
                 .ReturnsAsync(new List<Consultas>());
@@ -129,9 +129,28 @@ namespace EsteticaApplication.Tests.ConsultasTests
             _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveisPorData(DataFormatada))
                 .ReturnsAsync(new List<HorariosIndisponiveis>());
 
-            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(tipoConsultaId, DiaSelecionado);
+            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(tipoConsultaId, DataFormatada);
 
             resultado.Should().HaveCount(2);
+        }
+        [Fact]
+        public async Task BuscarHorariosPorTipoConsulta_DeveRetornarSomenteHorariosComInicioMaiorQueHoraAtual_QuandoDataSelecionadaIgualDataAtual()
+        {
+            int tipoConsultaId = 1;
+            var dataAtual = DateTime.Now.AddHours(-3);
+            var horariosEsperados = new List<HorarioConsultas>
+            {
+                new HorarioConsultas { Id = 1, Inicio = new TimeSpan(9, 1, 0), Fim = new TimeSpan(10, 0, 0), Ativo = true },
+                new HorarioConsultas { Id = 2, Inicio = dataAtual.TimeOfDay.Add(new TimeSpan(1, 0, 0)), Fim = dataAtual.TimeOfDay.Add(new TimeSpan(2, 0, 0)), Ativo = true }
+            };
+
+            _repositorioMock.Setup(repo => repo.BuscarHorariosPorTipoConsulta(tipoConsultaId)).ReturnsAsync(horariosEsperados);
+            _repositorioMock.Setup(repo => repo.BuscarConsultasPorData(dataAtual)).ReturnsAsync(new List<Consultas>());
+            _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveisPorData(dataAtual)).ReturnsAsync(new List<HorariosIndisponiveis>());
+
+            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(tipoConsultaId, dataAtual);
+
+            resultado.Should().HaveCount(1);
         }
 
         [Fact]
@@ -149,7 +168,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 new () { Id = 1, TipoConsultaId = tipoConsultaId, Data = DataFormatada.Date, Status = StatusConsulta.AGENDADA, Inicio = new TimeSpan(9, 1, 0), Fim = new TimeSpan(10, 0, 0) }
             };
 
-            _repositorioMock.Setup(repo => repo.BuscarHorariosPorTipoConsulta(tipoConsultaId, DiaSelecionado)).ReturnsAsync(horariosEsperados);
+            _repositorioMock.Setup(repo => repo.BuscarHorariosPorTipoConsulta(tipoConsultaId)).ReturnsAsync(horariosEsperados);
 
             _repositorioMock.Setup(repo => repo.BuscarConsultasPorData(DataFormatada))
                 .ReturnsAsync(consultasMarcadas);
@@ -157,7 +176,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
             _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveisPorData(DataFormatada))
                 .ReturnsAsync(new List<HorariosIndisponiveis>());
 
-            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(tipoConsultaId, DiaSelecionado);
+            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(tipoConsultaId, DataFormatada);
 
             resultado.Should().HaveCount(1);
             resultado.First().Id.Should().Be(2);
@@ -176,7 +195,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 new() { Inicio = new TimeSpan(9, 1, 0), Fim = new TimeSpan(10, 0, 0), Status = StatusConsulta.CANCELADA }
             };
 
-            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1, DiaSelecionado))
+            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1))
                 .ReturnsAsync(horarios);
 
             _repositorioMock.Setup(r => r.BuscarConsultasPorData(DataFormatada))
@@ -185,7 +204,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
             _repositorioMock.Setup(r => r.BuscarHorariosIndisponiveisPorData(DataFormatada))
                 .ReturnsAsync(new List<HorariosIndisponiveis>());
 
-            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DiaSelecionado);
+            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DataFormatada);
 
             resultado.Should().HaveCount(1);
         }
@@ -204,7 +223,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 new() { Inicio = new TimeSpan(9, 0, 0), Fim = new TimeSpan(10, 0, 0), Ativo = true }
             };
 
-            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1, DiaSelecionado))
+            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1))
                 .ReturnsAsync(horarios);
 
             _repositorioMock.Setup(r => r.BuscarConsultasPorData(DataFormatada))
@@ -213,7 +232,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
             _repositorioMock.Setup(r => r.BuscarHorariosIndisponiveisPorData(DataFormatada))
                 .ReturnsAsync(horariosIndisponiveis);
 
-            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DiaSelecionado);
+            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DataFormatada);
 
             resultado.Should().HaveCount(1);
             resultado.First().Id.Should().Be(2);
@@ -222,18 +241,18 @@ namespace EsteticaApplication.Tests.ConsultasTests
         [Fact]
         public async Task BuscarHorariosPorTipoConsulta_DeveLancarExcecao_QuandoDataFormatoInvalido()
         {
-            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1, "data-invalida"))
+            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1))
                 .ReturnsAsync(new List<HorarioConsultas>());
 
-            var resultado = async () => await _consultaService.BuscarHorariosPorTipoConsulta(1, "data-invalida");
+            var resultado = async () => await _consultaService.BuscarHorariosPorTipoConsulta(1, new DateTime(31, 04, 2026));
 
-            await resultado.Should().ThrowAsync<FormatException>();
+            await resultado.Should().ThrowAsync<ArgumentOutOfRangeException>();
         }
 
         [Fact]
         public async Task BuscarHorariosPorTipoConsulta_DeveLancarExcecao_QuandoNaoHouverHorariosDisponiveis()
         {
-            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1, DiaSelecionado))
+            _repositorioMock.Setup(r => r.BuscarHorariosPorTipoConsulta(1))
                 .ReturnsAsync(new List<HorarioConsultas>());
 
             _repositorioMock.Setup(repo => repo.BuscarConsultasPorData(DataFormatada))
@@ -242,7 +261,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
             _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveisPorData(DataFormatada))
                 .ReturnsAsync(new List<HorariosIndisponiveis>());
 
-            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DiaSelecionado);
+            var resultado = await _consultaService.BuscarHorariosPorTipoConsulta(1, DataFormatada);
 
             resultado.Should().BeEmpty();
         }
@@ -279,9 +298,9 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 new() { Id = 1, Data = DateTime.Now.Date, Inicio = new TimeSpan(9, 0, 0), Fim = new TimeSpan(10, 0, 0), Ativo = true },
                 new() { Id = 2, Data = DateTime.Now.Date, Inicio = new TimeSpan(10, 0, 0), Fim = new TimeSpan(11, 0, 0), Ativo = true }
             };
-            _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveis(tipoConsultaId, DiaSelecionado)).ReturnsAsync(horariosIndisponiveisEsperados);
+            _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveis(tipoConsultaId, DataFormatada)).ReturnsAsync(horariosIndisponiveisEsperados);
 
-            var resultado = await _consultaService.BuscarHorariosIndisponiveis(tipoConsultaId, DiaSelecionado);
+            var resultado = await _consultaService.BuscarHorariosIndisponiveis(tipoConsultaId, DataFormatada);
 
             resultado.Should().HaveCount(2);
             resultado.Should().BeEquivalentTo(horariosIndisponiveisEsperados);

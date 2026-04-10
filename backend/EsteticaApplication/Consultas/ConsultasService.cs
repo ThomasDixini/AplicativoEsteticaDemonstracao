@@ -48,21 +48,23 @@ namespace EsteticaApplication
             return tipoConsulta;
         }
 
-        public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, string DiaSelecionado)
+        public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, DateTime DiaSelecionado)
         {
             try
             {
-                var horarios = await _repositorioConsultas.BuscarHorariosPorTipoConsulta(TipoConsultaId, DiaSelecionado);
+                var horarios = await _repositorioConsultas.BuscarHorariosPorTipoConsulta(TipoConsultaId);
 
-                var dataFormatada = DateTime.ParseExact(
-                    DiaSelecionado,
-                    "dd/MM/yyyy",
-                    CultureInfo.InvariantCulture
-                );
-                var consultasMarcadas = await _repositorioConsultas.BuscarConsultasPorData(dataFormatada);
+                var dataAtual = DateTime.Now.AddHours(-3);
+
+                if (DiaSelecionado.Day == dataAtual.Day)
+                {
+                    horarios = horarios.Where(c => c.Inicio > dataAtual.TimeOfDay).ToList();
+                }
+
+                var consultasMarcadas = await _repositorioConsultas.BuscarConsultasPorData(DiaSelecionado);
                 consultasMarcadas = consultasMarcadas.Where(c => c.Status != StatusConsulta.CANCELADA).ToList();
 
-                var horariosIndisponiveis = await _repositorioConsultas.BuscarHorariosIndisponiveisPorData(dataFormatada);
+                var horariosIndisponiveis = await _repositorioConsultas.BuscarHorariosIndisponiveisPorData(DiaSelecionado);
                 horariosIndisponiveis = horariosIndisponiveis.Where(c => c.Ativo == true).ToList();
 
                 horarios = horarios.Where(horario => !consultasMarcadas.Any(consulta => horario.Inicio < consulta.Fim && consulta.Inicio < horario.Fim)).ToList();
@@ -235,7 +237,7 @@ namespace EsteticaApplication
             return;
         }
 
-        public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, string Data)
+        public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, DateTime Data)
         {
             var horariosIndisponiveis = await _repositorioConsultas.BuscarHorariosIndisponiveis(TipoConsultaId, Data);
             return horariosIndisponiveis;

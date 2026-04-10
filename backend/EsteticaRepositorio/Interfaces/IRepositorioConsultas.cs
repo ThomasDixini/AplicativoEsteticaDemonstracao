@@ -19,7 +19,7 @@ namespace EsteticaRepositorio.Interfaces
 
         Task<HorarioConsultas> BuscarHorarioPorId(int HorarioId);
         Task<HorarioConsultas?> BuscarHorarioPorPeriodo(TimeSpan inicio, TimeSpan fim);
-        Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, string DiaSelecionado);
-        Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, string DiaSelecionado);
+        Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId);
+        Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, DateTime DiaSelecionado);
     }
 }

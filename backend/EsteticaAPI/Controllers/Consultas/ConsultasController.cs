@@ -183,7 +183,12 @@ namespace EsteticaAPI.Controllers
         {
             try
             {
-                var horarios = await _consultasService.BuscarHorariosPorTipoConsulta(TipoConsultaId, DiaSelecionado);
+                if(!DateTime.TryParseExact(DiaSelecionado, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var dataFormatada))
+                {
+                    return BadRequest("Data em formato inválido. Use dd/MM/yyyy.");
+                }
+                
+                var horarios = await _consultasService.BuscarHorariosPorTipoConsulta(TipoConsultaId, dataFormatada);
                 if (horarios == null || horarios.Count() == 0) return NoContent();
 
                 return Ok(horarios);
@@ -348,7 +353,12 @@ namespace EsteticaAPI.Controllers
         {
             try
             {
-                var horariosIndisponiveis = await _consultasService.BuscarHorariosIndisponiveis(TipoConsultaId, Data);
+                if(!DateTime.TryParseExact(Data, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var dataFormatada))
+                {
+                    return BadRequest("Data em formato inválido. Use dd/MM/yyyy.");
+                }
+                
+                var horariosIndisponiveis = await _consultasService.BuscarHorariosIndisponiveis(TipoConsultaId, dataFormatada);
                 if (horariosIndisponiveis == null) return NoContent();
 
                 return Ok(horariosIndisponiveis);

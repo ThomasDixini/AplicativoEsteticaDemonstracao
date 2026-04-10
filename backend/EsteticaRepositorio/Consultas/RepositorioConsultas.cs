@@ -60,63 +60,33 @@ namespace EsteticaRepositorio
             return await Task.Run(() => _context.HorarioConsultas.First(c => c.Id == HorarioId));
         }
 
-        public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId, string DiaSelecionado)
+        public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId)
         {
-            var dataFormatada = DateTime.ParseExact(
-                DiaSelecionado,
-                "dd/MM/yyyy",
-                CultureInfo.InvariantCulture
-            );
-            var dataAtual = DateTime.Now.AddHours(-3);
-
-            var horarios = await _context.TipoConsultaHorarios
-                                                .Include(c => c.Horario)
-                                                .Where(c => c.TipoConsultaId == TipoConsultaId)
-                                                .Select(c => c.Horario)
-                                                .ToListAsync();
-
-            if (dataFormatada.Day == dataAtual.Day)
-            {
-                horarios = horarios.Where(c => c.Inicio > dataAtual.TimeOfDay).ToList();
-            }
-
-            var tipoConsultaHorarios = await _context.TipoConsultaHorarios.Where(c => c.TipoConsultaId == TipoConsultaId && c.DataReserva.Date >= dataFormatada.Date && c.DataReserva.Date <= dataFormatada.Date).ToListAsync();
-            foreach (var horario in horarios)
-            {
-                horario.TipoConsultaHorarios = tipoConsultaHorarios.Where(c => c.HorarioId == horario.Id).ToList() ?? new List<TipoConsultaHorarios>();
-            }
-
-            return await Task.Run(() => horarios);
+            return await _context.TipoConsultaHorarios
+                .Where(c => c.TipoConsultaId == TipoConsultaId)
+                .Select(c => c.Horario)
+                .Include(h => h.TipoConsultaHorarios)
+                .ToListAsync();
         }
 
-        public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, string DiaSelecionado)
+        public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, DateTime DiaSelecionado)
         {
-            var dataFormatada = DateTime.ParseExact(
-                DiaSelecionado,
-                "dd/MM/yyyy",
-                CultureInfo.InvariantCulture
-            );
-
-            var horariosIndisponiveis = await _context.HorariosIndisponiveis.Where(c => c.Data == dataFormatada).ToListAsync();
-            return await Task.Run(() => horariosIndisponiveis);
+            return await _context.HorariosIndisponiveis.Where(c => c.Data == DiaSelecionado).ToListAsync();
         }
 
         public async Task<HorarioConsultas?> BuscarHorarioPorPeriodo(TimeSpan inicio, TimeSpan fim)
         {
-            var horarios = await _context.HorarioConsultas.FirstOrDefaultAsync(c => c.Inicio >= inicio && c.Fim <= fim);
-            return await Task.Run(() => horarios);
+            return await _context.HorarioConsultas.FirstOrDefaultAsync(c => c.Inicio >= inicio && c.Fim <= fim);
         }
 
         public async Task<List<Consultas>> BuscarConsultasPorData(DateTime Data)
         {
-            var consultas = await _context.Consultas.Where(c => c.Data.Date == Data.Date).ToListAsync();
-            return await Task.Run(() => consultas);
+            return await _context.Consultas.Where(c => c.Data.Date == Data.Date).ToListAsync();
         }
 
         public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveisPorData(DateTime Data)
         {
-            var horariosIndisponiveis = await _context.HorariosIndisponiveis.Where(c => c.Data.Date >= Data.Date && c.Data.Date <= Data.Date).ToListAsync();
-            return await Task.Run(() => horariosIndisponiveis);
+            return await _context.HorariosIndisponiveis.Where(c => c.Data.Date >= Data.Date && c.Data.Date <= Data.Date).ToListAsync();
         }
     }
 }
