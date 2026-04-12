@@ -16,17 +16,17 @@ namespace EsteticaRepositorio
         }
         public async Task<Produtos> BuscarProdutoPorId(int ProdutoId)
         {
-            return await Task.Run(() => _context.Produtos.FirstAsync(c => c.Id == ProdutoId));
+            return await _context.Produtos.FirstAsync(c => c.Id == ProdutoId);
         }
 
         public async Task<List<Produtos>> BuscarProdutos()
         {
-            return await Task.Run(() => _context.Produtos.ToListAsync());
+            return await _context.Produtos.ToListAsync();
         }
 
         public async Task<List<TipoProdutos>> BuscarTipoProdutos()
         {
-            return await Task.Run(() => _context.TipoProdutos.Include(c => c.Produtos).Select(c => new TipoProdutos
+            return await _context.TipoProdutos.Include(c => c.Produtos).Select(c => new TipoProdutos
             {
                 Id = c.Id,
                 Descricao = c.Descricao,
@@ -45,11 +45,11 @@ namespace EsteticaRepositorio
                     ValorDeVenda = produto.ValorDeVenda,
                     UriImagem = produto.UriImagem
                 }).ToList() : null,
-            }).ToListAsync());
+            }).ToListAsync();
         }
         public async Task<TipoProdutos?> BuscarTipoProdutoPorId(int TipoProdutoId)
         {
-            return await Task.Run(() => _context.TipoProdutos.Include(c => c.Produtos).FirstOrDefaultAsync(c => c.Id == TipoProdutoId));
+            return await _context.TipoProdutos.Include(c => c.Produtos).FirstOrDefaultAsync(c => c.Id == TipoProdutoId);
         }
     }
 }
