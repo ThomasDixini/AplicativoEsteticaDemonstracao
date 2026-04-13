@@ -298,7 +298,7 @@ namespace EsteticaApplication.Tests.ConsultasTests
                 new() { Id = 1, Data = DateTime.Now.Date, Inicio = new TimeSpan(9, 0, 0), Fim = new TimeSpan(10, 0, 0), Ativo = true },
                 new() { Id = 2, Data = DateTime.Now.Date, Inicio = new TimeSpan(10, 0, 0), Fim = new TimeSpan(11, 0, 0), Ativo = true }
             };
-            _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveis(tipoConsultaId, DataFormatada)).ReturnsAsync(horariosIndisponiveisEsperados);
+            _repositorioMock.Setup(repo => repo.BuscarHorariosIndisponiveis(DataFormatada)).ReturnsAsync(horariosIndisponiveisEsperados);
 
             var resultado = await _consultaService.BuscarHorariosIndisponiveis(tipoConsultaId, DataFormatada);
 

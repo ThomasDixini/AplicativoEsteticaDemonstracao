@@ -70,24 +70,16 @@ namespace EsteticaApplication
 
         public async Task<bool> SalvarNotificacaoToken(Usuarios usuarioLogado, string NotificacaoToken)
         {
-            try
+            var response = false;
+            if (usuarioLogado.NotificacaoToken != NotificacaoToken)
             {
-                var response = false;
-                if (usuarioLogado.NotificacaoToken != NotificacaoToken)
-                {
-                    usuarioLogado.NotificacaoToken = NotificacaoToken;
-                    _repositorioEstetica.Update(usuarioLogado);
+                usuarioLogado.NotificacaoToken = NotificacaoToken;
+                _repositorioEstetica.Update(usuarioLogado);
 
-                    response = await _repositorioEstetica.SaveChangesAsync();
-                }
-
-                return response;
+                response = await _repositorioEstetica.SaveChangesAsync();
             }
-            catch (System.Exception)
-            {
 
-                throw;
-            }
+            return response;
         }
     }
 }

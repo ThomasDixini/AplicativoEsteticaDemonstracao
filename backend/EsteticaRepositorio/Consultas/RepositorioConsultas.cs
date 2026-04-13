@@ -32,6 +32,7 @@ namespace EsteticaRepositorio
             return await query
                     .AsNoTracking()
                     .Include(c => c.TipoConsulta)
+                    .ThenInclude(t => t.TipoConsultaHorarios)
                     .Skip((PaginaAtual - 1) * ItensPorPagina)
                     .Take(ItensPorPagina)
                     .ToListAsync();
@@ -57,19 +58,20 @@ namespace EsteticaRepositorio
 
         public async Task<HorarioConsultas> BuscarHorarioPorId(int HorarioId)
         {
-            return await Task.Run(() => _context.HorarioConsultas.First(c => c.Id == HorarioId));
+            return await _context.HorarioConsultas.FirstAsync(c => c.Id == HorarioId);
         }
 
         public async Task<List<HorarioConsultas>> BuscarHorariosPorTipoConsulta(int TipoConsultaId)
         {
             return await _context.TipoConsultaHorarios
                 .Where(c => c.TipoConsultaId == TipoConsultaId)
+                .Include(c => c.Horario)
+                .ThenInclude(h => h.TipoConsultaHorarios)
                 .Select(c => c.Horario)
-                .Include(h => h.TipoConsultaHorarios)
                 .ToListAsync();
         }
 
-        public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, DateTime DiaSelecionado)
+        public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(DateTime DiaSelecionado)
         {
             return await _context.HorariosIndisponiveis.Where(c => c.Data == DiaSelecionado).ToListAsync();
         }
