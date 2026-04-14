@@ -60,9 +60,9 @@ jobs:
       - name: Test com cobertura
         run: |
           coverlet \
-            ${{ github.workspace }}/backend/Tests/EsteticaApplication.Tests/bin/Debug/net9.0/EsteticaApplication.Tests.dll \
+            ${{ github.workspace }}/backend/Tests/Estetica.Tests/bin/Debug/net9.0/Estetica.Tests.dll \
             --target "dotnet" \
-            --targetargs "test --project ${{ github.workspace }}/backend/Tests/EsteticaApplication.Tests/EsteticaApplication.Tests.csproj --no-build --no-restore" \
+            --targetargs "test --project ${{ github.workspace }}/backend/Tests/Estetica.Tests/Estetica.Tests.csproj --no-build --no-restore" \
             --format opencover \
             --output ${{ github.workspace }}/coverage.opencover.xml || true  # 👈 temporário
 
