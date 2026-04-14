@@ -54,24 +54,8 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Instalar Coverlet CLI
-        run: dotnet tool install --global coverlet.console
-
-      - name: Test com cobertura
-        run: |
-          coverlet \
-            ${{ github.workspace }}/backend/Tests/Estetica.Tests/bin/Debug/net9.0/Estetica.Tests.dll \
-            --target "dotnet" \
-            --targetargs "test --project ${{ github.workspace }}/backend/Tests/Estetica.Tests/Estetica.Tests.csproj --no-build --no-restore" \
-            --format opencover \
-            --output ${{ github.workspace }}/coverage.opencover.xml || true  # 👈 temporário
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: ${{ github.workspace }}/coverage.opencover.xml
-          if-no-files-found: error
+      - name: Testando aplicação
+        run: dotnet test --no-restore --collect:"XPlat Code Coverage" --results-directory ../test-results
 
   analyze:
     name: Analyze (SonarQube)
