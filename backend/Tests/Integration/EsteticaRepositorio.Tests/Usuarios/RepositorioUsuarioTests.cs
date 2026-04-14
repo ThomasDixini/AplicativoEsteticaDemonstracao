@@ -35,7 +35,7 @@ namespace EsteticaApplication.RepositorioUsuarioTests
                 Id = 1,
                 UserName = "usuarioTeste",
                 Email = "usuarioTeste@example.com",
-                AccessFailedCount= 0,
+                AccessFailedCount = 0,
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
                 EmailConfirmed = true,
                 LockoutEnabled = false,

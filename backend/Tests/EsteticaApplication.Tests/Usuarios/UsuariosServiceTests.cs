@@ -69,7 +69,7 @@ namespace EsteticaApplication.Tests.UsuariosTests
         public async Task SalvarNotificacaoToken_DeveRetornarFalse_SeTokenIgual()
         {
             var notificacaoToken = "testtoken_123";
-            var usuario = new Usuarios { Id = 1, UserName = "testuser", NotificacaoToken = "testtoken_123"};
+            var usuario = new Usuarios { Id = 1, UserName = "testuser", NotificacaoToken = "testtoken_123" };
 
             var resultado = await _usuariosService.SalvarNotificacaoToken(usuario, notificacaoToken);
 

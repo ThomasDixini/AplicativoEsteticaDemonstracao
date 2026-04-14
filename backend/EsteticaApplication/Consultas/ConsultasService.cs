@@ -239,7 +239,7 @@ namespace EsteticaApplication
 
         public async Task<List<HorariosIndisponiveis>> BuscarHorariosIndisponiveis(int TipoConsultaId, DateTime Data)
         {
-            return await _repositorioConsultas.BuscarHorariosIndisponiveis(Data);;
+            return await _repositorioConsultas.BuscarHorariosIndisponiveis(Data); ;
         }
         public async Task DefinirHorariosIndisponiveis(HorariosIndisponiveis model)
         {
