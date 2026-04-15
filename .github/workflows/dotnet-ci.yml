@@ -63,7 +63,13 @@ jobs:
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Rodar Testes com Cobertura
-        run: dotnet-coverage collect "dotnet test" -f cobertura -o coverage.xml
+        run: dotnet-coverage collect "dotnet test" -f xml -o coverage.xml
+
+      - name: Upload coverage artifact        # 👈 salva o arquivo
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: backend/coverage.xml
 
   analyze:
     name: Analyze (SonarQube)
@@ -75,6 +81,12 @@ jobs:
         working-directory: backend
 
     steps:
+      - name: Download coverage artifact      # 👈 baixa o arquivo
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: backend
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -124,7 +136,7 @@ jobs:
             /k:"ThomasDixini_AplicativoEsteticaDemonstracao" `
             /o:"thomasdixini" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-            /d:sonar.cs.vscoveragexml.reportsPaths="${{ github.workspace }}\coverage.xml" `
+            /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" `
             /d:sonar.coverage.exclusions="**/EsteticaRepositorio/**,**/Migrations/**"
 
           dotnet build --no-restore
