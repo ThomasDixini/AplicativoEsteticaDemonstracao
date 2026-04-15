@@ -121,7 +121,7 @@ jobs:
             /o:"thomasdixini" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
             /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml `
-            /d:sonar.coverage.exclusions="**/EsteticaRepositorio/**,**/Migrations/**"
+            /d:sonar.coverage.exclusions="**/Migrations/**"
 
           dotnet build --no-restore
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
