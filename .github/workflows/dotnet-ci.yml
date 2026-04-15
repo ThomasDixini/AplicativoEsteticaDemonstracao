@@ -57,14 +57,16 @@ jobs:
       - name: Testando aplicação
         run: dotnet test --no-restore
       
-      - name: Rodar Testes com Cobertura
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=coverage.xml /p:CoverletOutputFormat=opencover
+      - name: Instalar dotnet-coverage
+        run: |
+          dotnet tool install --global dotnet-coverage
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
-      - name: Upload coverage artifact        # 👈 salva o arquivo
+      - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: backend/coverage.xml
+          path: coverage.xml
 
   analyze:
     name: Analyze (SonarQube)
@@ -76,7 +78,7 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Download coverage artifact      # 👈 baixa o arquivo
+      - name: Download coverage artifact
         uses: actions/download-artifact@v4
         with:
           name: coverage-report
@@ -131,7 +133,7 @@ jobs:
             /k:"ThomasDixini_AplicativoEsteticaDemonstracao" `
             /o:"thomasdixini" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-            /d:sonar.cs.opencover.reportsPaths="coverage.xml" `
+            /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml `
             /d:sonar.coverage.exclusions="**/EsteticaRepositorio/**,**/Migrations/**"
 
           dotnet build --no-restore
