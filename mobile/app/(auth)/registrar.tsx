@@ -119,19 +119,7 @@ export default function RegistrarPagina() {
 
                 console.error(status)
                 console.error(serverMessage)
-                errors.forEach((errorResponse: any) => {
-                    if(errorResponse.code === 'DuplicateUserName'){
-                        showMessage({
-                            message: "Nome de usuário já existe!",
-                            type: "warning",
-                            style: {
-                                height: 100,
-                            }
-                        })
-                    }
-
-                    console.error(errorResponse.description)
-                })
+                console.error(errors)
             } else {
                 console.error("Erro inesperado com o servidor.")
                 console.error(error)

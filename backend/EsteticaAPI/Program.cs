@@ -33,16 +33,8 @@ builder.Services.AddScoped<UserManager<Usuarios>>();
 builder.Services.AddScoped<SignInManager<Usuarios>>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        sqlOptions =>
-        {
-            sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(10),
-                errorNumbersToAdd: null
-            );
-        }
+    options => options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
 
